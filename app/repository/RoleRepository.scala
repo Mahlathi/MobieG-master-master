@@ -1,0 +1,26 @@
+package repository
+
+import people.Role
+
+import scala.slick.driver.MySQLDriver.simple._
+import scala.slick.lifted.ProvenShape
+
+/**
+ * Created by joseph on 2014/09/08.
+ */
+object RoleRepository {
+    class RoleRepository(tag: Tag) extends Table[(String, String, String)](tag, "Role"){
+
+      def id = column[String]("ROLE_ID", O.PrimaryKey )
+
+      def name = column[String]("ROLE_NAME")
+
+      def description = column[String]("ROLE_DESCRIPTION")
+
+      def * = (id, name, description)
+      //override def * : ProvenShape[(String, String, String)] = (id, name, description)
+    }
+
+  val role = TableQuery[RoleRepository]
+
+}

@@ -1,75 +1,95 @@
 
+import domain.stuff.Channel
 import org.scalatest.{BeforeAndAfter, FunSuite, GivenWhenThen, FeatureSpec}
-import people.{Admin, Facilitator}
+import domain.people.Facilitator
 import scala.slick.driver.MySQLDriver.simple._
 import repository.ChannelRepository.ChannelRepository
 import repository.FacilitatorRepository.FacilitatorRepository
-
+import org.scalatest.Assertions._
 
 import scala.slick.lifted.TableQuery
 
 /**
  * Created by joseph on 2014/09/03.
  */
-class TestChannel extends FeatureSpec with GivenWhenThen
-{
+class TestChannel extends FeatureSpec with GivenWhenThen {
 
-  val channel = TableQuery[ChannelRepository]
-  val facilitator = TableQuery[FacilitatorRepository]
+  feature("Save Care Plan") {
+    info("As a Coordinator")
+    info("I want to Set up Tables")
+    info("So that I can Add Data into the MYSQL")
 
-  Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
+    scenario("Create Tables in the Database ") {
+      Given("Given a Connection to the Database Through a Repository")
 
-    //Creating tables
-    //( channel.ddl ++ facilitator.ddl ).create
+      val channel = TableQuery[ChannelRepository]
+      val facilitator = TableQuery[FacilitatorRepository]
 
 
-    feature("Testing channel")
-    {
-      info("Testing insert")
-      scenario("Read channel"){
-        Given("channel")
-          //val chan = Channel("1", "Akhona", "I am simply the best", "2")
 
-          // val fac = Facilitator("3")
+      Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
-          //val other = facilitator.insert("3")
-          //val valo = channel.insert("5", "Akhona", "I am simply the best", other.toString)
+        //Creating tables
+        //( channel.ddl ++ facilitator.ddl ).create
+
+
+        info("Creating a Care Plan")
+         // val chan = Channel("6", "Phumeza", "She is simply the best", "8")
+
+         // val fac = Facilitator("8")
+
+          //val other = facilitator.insert(fac)
+
+         // val valo = channel.insert(chan)
         //assert(results.size == 2)
-      }
-    }
 
-    //Testing for extraction
-    feature("Testing channel")
-    {
-      info("Testing read")
-      scenario("Reading channel"){
-        Given("channel")
+        //Testing for extraction
+        def Read(name: String, id: String) =
+          channel foreach { case (count: Channel) =>
+            if (count.id.contentEquals(id)){
+              assert(count.name.contentEquals(name))
 
-        val results = channel.list
-        //val otherresults = facilitator.list
-
-        assert(results.size == 3)
-        //assert(otherresults.size == 2)
-      }
-    }
+            }
 
 
-    //Testing for updation
-    feature("Updating channel")
-    {
-      info("Testing update")
-      scenario("Updating Admin"){
-        Given("Admin")
+          }
 
+        def Update( desc: String, id: String) =
+        {
+          channel.filter(_.id === id).map(_.description).update(desc)
+          channel foreach { case ( chann: Channel ) =>
+            if( chann.description.contentEquals(id))
+            {
+              assert(chann.description.contentEquals(desc))
+            }
+          }
+        }
 
-        val rmadd = channel.findBy(_.id)
-        val walue = channel.insert( "" + rmadd., "Mahlathi", "used to be the best", "2")
-        val results = channel.list
+        def Delete(id: String) =
+        {
+            channel.filter(_.id === id).delete
+            facilitator.filter(_.id === id).delete
+          channel foreach { case (chann: Channel) =>
+            if (!chann.id.contentEquals(id)) {
+              assert(chann.id !== id)
+              info("Checked")
+            }
+              else
+            {
+              info("Not checked")
+            }
+          }
+        }
 
-        assertResult( results.take(2), "Mahlathi")_
+        info("Reading things")
+        Read("Hotness sana", "1")
+        info("Updating things")
+        Update("Hotness sana", "1")
+        info("Deleting things")
+        Delete("<function>")
+
       }
     }
 
   }
-
 }

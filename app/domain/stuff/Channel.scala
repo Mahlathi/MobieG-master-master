@@ -1,3 +1,5 @@
+package domain.stuff
+
 import play.api.libs.json.Json
 
 /**
@@ -9,7 +11,7 @@ case class Channel(id:String,
                    facilitatorId:String
                     )
 
-object Channel{
+object Channels{
     implicit lazy val channelfmt = Json.format[Channel]
 }
 

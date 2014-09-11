@@ -8,6 +8,6 @@ import play.api.libs.json.Json
 
 case class Admin(id:String)
 
-object Admin {
+object Adminser {
   implicit lazy val adminfmt = Json.format[Admin]
 }

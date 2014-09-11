@@ -1,5 +1,6 @@
 package repository
 
+import domain.stuff.Conversation
 import repository.FacilitatorRepository.FacilitatorRepository
 
 import scala.slick.driver.MySQLDriver.simple._
@@ -10,13 +11,13 @@ import scala.slick.lifted.{ProvenShape, ForeignKeyQuery}
  */
 object ConversationRepository
 {
-    class Conversation(tag:Tag) extends Table[(String, String, String)](tag,"Conversation")
+    class ConversationRepository(tag:Tag) extends Table[Conversation](tag,"Conversation")
     {
       def id = column[String]("CONVERSATION_ID", O.PrimaryKey)
       def message = column[String]("CONVERSATION_MESSAGE")
       def facilitatorID = column[String]("CONVERSATION_FACILITATORID")
 
-      def * = (id, message, facilitatorID)
+      def * = (id, message, facilitatorID) <> (Conversation.tupled, Conversation.unapply)
 
       //override def * : ProvenShape[(String, String, String)] = (id, message, facilitatorID)
 
@@ -24,5 +25,5 @@ object ConversationRepository
       def facilitator = foreignKey("FAC_FK", facilitatorID, TableQuery[FacilitatorRepository])(_.id)
     }
 
-  val conversation = TableQuery[Conversation]
+  val conversation = TableQuery[ConversationRepository]
 }

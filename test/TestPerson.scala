@@ -1,30 +1,111 @@
+import domain.people.Facilitator
+import domain.stuff.Channel
 import org.scalatest.{GivenWhenThen, FeatureSpec}
-import people.Person
+import people.{Admin, Members, Person}
+import repository.AdminRepository.AdminRepository
+import repository.ChannelRepository.ChannelRepository
+import repository.FacilitatorRepository.FacilitatorRepository
+import repository.MembersRepository.MembersRepository
+import repository.PersonRepository.PersonRepository
+import scala.slick.driver.MySQLDriver.simple._
+import scala.slick.lifted.TableQuery
 
 /**
  * Created by joseph on 2014/09/03.
  */
 class TestPerson extends FeatureSpec with GivenWhenThen
 {
-  feature("Create Person")
-  {
-    info("There are multiple Person that the user can chat on")
-    scenario("create Person"){
-      Given("Person")
+  feature("Save Care Plan") {
+    info("As a Coordinator")
+    info("I want to Set up Tables")
+    info("So that I can Add Data into the MYSQL")
 
-      val person = Person("12",
-        "Jack",
-        "Jack",
-        "987",
-        "android",
-        "Akhona",
-        "123",
-        "ok@gmail.com",
-        "123","123","123"
-      )
+    scenario("Create Tables in the Database ") {
+      Given("Given a Connection to the Database Through a Repository")
 
-      assert( person.firstname == ("Jack"))
+      val admin = TableQuery[AdminRepository]
+      val facilitator = TableQuery[FacilitatorRepository]
+      val memrepo = TableQuery[MembersRepository]
+      val peeps = TableQuery[PersonRepository]
+
+
+      Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
+
+        //Creating tables
+        //peeps.ddl.create
+
+
+        info("Creating a Care Plan")
+
+
+       //  val fac = Facilitator("57")
+
+       // val chan = Members("67",fac.id)
+
+        // val adm = Admin("47")
+
+        // val bantu = Person("27","Mr", "Magadla","bhongo","Svig","zoro","123456@yamba.com","123456", adm.id, fac.id, chan.id)
+
+        //val one = facilitator.insert(fac)
+
+
+         //val two = memrepo.insert(chan)
+
+       // val three = admin.insert(adm)
+
+       //val four = peeps.insert(bantu)
+
+
+        //Testing for extraction
+        def Read(name: String, id: String) =
+          peeps foreach { case (count: Person) =>
+            if (count.id.contentEquals(id)){
+              assert(count.firstname.contentEquals(name))
+
+            }
+
+
+          }
+
+        def Update( desc: String, id: String) =
+        {
+          peeps.filter(_.id === id).map(_.firstname).update(desc)
+          peeps foreach { case ( chann: Person ) =>
+            if( chann.firstname.contentEquals(id))
+            {
+              assert(chann.firstname.contentEquals(desc))
+            }
+          }
+        }
+
+                def Delete(id: String) =
+                {
+                  peeps.filter(_.id === id).delete
+                  admin.filter(_.id === id).delete
+                  memrepo.filter(_.id === id).delete
+                  facilitator.filter(_.id === id).delete
+                  peeps foreach { case (chann: Person) =>
+                    if (!chann.id.contentEquals(id)) {
+                      assert(chann.id !== id)
+                      info("Checked")
+                    }
+                    else
+                    {
+                      info("Not checked")
+                    }
+                  }
+                }
+
+        info("Reading things")
+        Read("Legend", "27")
+       info("Updating things")
+       Update("Legends", "27")
+       info("Deleting things")
+        Delete("27")
+
+      }
     }
+
   }
 
 }

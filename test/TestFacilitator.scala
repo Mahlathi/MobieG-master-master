@@ -1,5 +1,5 @@
 import org.scalatest.{GivenWhenThen, FeatureSpec}
-import people.Facilitator
+import domain.people.Facilitator
 
 /**
  * Created by joseph on 2014/09/03.

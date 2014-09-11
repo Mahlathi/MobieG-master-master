@@ -1,5 +1,6 @@
 package repository
 
+import domain.stuff.Channel
 import repository.FacilitatorRepository.FacilitatorRepository
 
 import scala.slick.driver.MySQLDriver.simple._
@@ -10,16 +11,16 @@ import scala.slick.lifted.{ProvenShape, ForeignKeyQuery}
  */
 object ChannelRepository {
 
-  class ChannelRepository(tag:Tag) extends Table[(String, String, String, String)](tag,"Channel")
+  class ChannelRepository(tag:Tag) extends Table[Channel](tag,"Channel")
   {
     def id = column[String]("CHANNEL_ID", O.PrimaryKey)
     def name = column[String]("CHANNEL_NAME")
     def description = column[String]("CHANNEL_DESCRIPTION")
     def facilitatorID = column[String]("CHANNEL_FACILITATORID")
 
-    //def * = (id, name, description, facilitatorID) <> ( Channe )
+    def * = (id, name, description, facilitatorID) <> ( Channel.tupled, Channel.unapply )
 
-    override def * : ProvenShape[(String, String, String, String)] = (id, name, description, facilitatorID)
+    //override def * : ProvenShape[(String, String, String, String)] = (id, name, description, facilitatorID)
 
     def facilitator = foreignKey("FAC_FK", facilitatorID, TableQuery[FacilitatorRepository])(_.id)
 

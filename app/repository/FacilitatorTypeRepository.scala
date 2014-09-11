@@ -10,7 +10,7 @@ import scala.slick.lifted.{ProvenShape, ForeignKeyQuery}
  * Created by joseph on 2014/09/08.
  */
 object FacilitatorTypeRepository {
-    class FacilitatorTypeRepository(tag: Tag) extends Table[(String, String, String, String)](tag, "FacilitatorType"){
+    class FacilitatorTypeRepository(tag: Tag) extends Table[FacilitatorType](tag, "FacilitatorType"){
         def id = column[String]("FACILITATORTYPE_ID", O.PrimaryKey)
 
         def name = column[String]("FACILITATORTYPE_NAME")
@@ -19,7 +19,7 @@ object FacilitatorTypeRepository {
 
         def facilitator_id = column[String]("FACILITATOR_ID")
 
-        def * = (id, name, description, facilitator_id)
+        def * = (id, name, description, facilitator_id) <> (FacilitatorType.tupled, FacilitatorType.unapply)
 
         //override def * : ProvenShape[(String, String, String, String)] = (id, name, description, facilitator_id)
 

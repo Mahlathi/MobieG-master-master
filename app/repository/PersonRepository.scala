@@ -13,7 +13,7 @@ import scala.slick.lifted.{ProvenShape, ForeignKeyQuery}
  * Created by joseph on 2014/09/08.
  */
 object PersonRepository {
-    class PersonRepository(tag: Tag) extends Table[(String,String,String,String,String,String,String,String,String,String,String)](tag, "Person"){
+    class PersonRepository(tag: Tag) extends Table[Person](tag, "Person"){
         def id = column[String]("PERSON_ID", O.PrimaryKey)
 
         def title = column[String]("TITLE")
@@ -36,7 +36,7 @@ object PersonRepository {
 
         def members_id = column[String]("MEMBERS_ID")
 
-        def * = (id, title, firstname, surname, othername, username, email, password, admin_id, facilitator_id, members_id)
+        def * = (id, title, firstname, surname, othername, username, email, password, admin_id, facilitator_id, members_id) <> (Person.tupled, Person.unapply)
 
 
       //override def * : ProvenShape[(String,String,String,String,String,String,String,String,String,String,String)] = (id, title,firstname,surname,othername, username,email,password,members_id,admin_id,facilitator_id)

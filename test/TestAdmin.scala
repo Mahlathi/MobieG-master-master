@@ -1,12 +1,17 @@
 
 
+import domain.stuff.Channel
 import org.scalatest.{BeforeAndAfter, FunSuite, FeatureSpec, GivenWhenThen}
-import people.{Facilitator, Admin}
+import domain.people.Facilitator
+import people.Admin
 import repository.AdminRepository.AdminRepository
+import repository.ChannelRepository.ChannelRepository
+import repository.FacilitatorRepository.FacilitatorRepository
 
 import scala.slick.driver.MySQLDriver.simple._
 import org.scalatest.{GivenWhenThen, FeatureSpec}
 
+import scala.slick.lifted.TableQuery
 import scalaz.std.list
 
 
@@ -14,75 +19,77 @@ import scalaz.std.list
  * Created by joseph on 2014/09/03.
  */
 class TestAdmin extends FeatureSpec with GivenWhenThen {
+  feature("Save Care Plan") {
+    info("As a Coordinator")
+    info("I want to Set up Tables")
+    info("So that I can Add Data into the MYSQL")
 
-  val admin = TableQuery[AdminRepository]
+    scenario("Create Tables in the Database ") {
+      Given("Given a Connection to the Database Through a Repository")
 
-  Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
-
-   //Creating Table Admin
-   // ( admin.ddl ).create
-
-
-    //Testing data insertion
-    feature("Testing Admin")
-    {
-      info("Test insert")
-      scenario("Test Admin insert"){
-        Given("Admin")
-
-        //val adm = Admin("6")
-
-        //val value = admin.insert("6");
-
-        //assert( value == 1)
-      }
-    }
+      val adminrepo = TableQuery[AdminRepository]
 
 
-    //Testing for extraction
-    feature("Testing Admin")
-    {
-      info("Testing read")
-      scenario("Reading Admin"){
-        Given("Admin")
-
-        val results = admin.list
-
-        assert(results.size == 3)
-      }
-    }
 
 
-    //Testing for updation
-    feature("Updating Admin")
-    {
-      info("Testing update")
-      scenario("Updating Admin"){
-        Given("Admin")
+      Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
-        val rmadd = admin.findBy(_.id)
-        val adm = Admin(rmadd.toString)
+        //Creating tables
+        //admin.ddl.create
+
+        //Inserting
+        //info("Creating Admin")
+        //val admins = Admin("12")
+
+        //val valo = adminrepo.insert(admins)
+
+        //Testing for extraction
+        def Read(id: String) =
+          adminrepo foreach { case (count: Admin) =>
+            info("Fail")
+            if(count.id === id )
+            {
+              assert(count.id.contentEquals(id))
+              info("Success")
+            }
+
+        }
+
+        def Update(id: String) = {
+
+          adminrepo.filter(_.id === id).map(_.id).update(id)
+          adminrepo foreach { case (chann: Admin) =>
+           if (chann.id.contentEquals(id)) {
+              assert(chann.id.contentEquals(id))
+           }
+          }
+        }
 
 
-        //assert(results.size == 3)
-      }
-    }
+        def Delete(id: String) = {
+          adminrepo.filter(_.id === id).delete
+          adminrepo foreach { case (chann: Admin) =>
+            if (!chann.id.contentEquals(id)) {
+              assert(chann.id !== id)
+              info("Checked")
+            }
+            else {
+              info("Not checked")
+            }
+          }
+        }
 
-    //Testing for updation
-    feature("Deleting Admin")
-    {
-      info("Testing delete")
-      scenario("Deleting Admin"){
-        Given("Admin")
+        info("Reading things")
+        Read("12")
+        info("Updating things")
+        Update("12")
+        info("Deleting things")
+        Delete("6")
 
-         // val rmadd = admin.findBy(_.id)
-
-
-         // admin.deleteStatement(rmadd)
-
-        //assert(results.size == 3)
       }
     }
 
   }
 }
+
+

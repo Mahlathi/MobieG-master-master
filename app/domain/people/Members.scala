@@ -8,6 +8,6 @@ import play.api.libs.json.Json
 
 case class Members(id:String, facilitatorId:String)
 
-object Members{
+object Memberss{
   implicit lazy val membersfmt = Json.format[Members]
 }

@@ -8,6 +8,6 @@ import play.api.libs.json.Json
 
 case class Role(roleName:String, description:String, roleId:String)
 
-object Role {
+object Roles {
   implicit lazy val rolefmt = Json.format[Role]
 }

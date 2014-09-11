@@ -1,3 +1,5 @@
+package domain.stuff
+
 import play.api.libs.json.Json
 
 /**
@@ -6,6 +8,6 @@ import play.api.libs.json.Json
 
 case class Ratings (id:String,rate:Int,comment:String, facilitatorId:String)
 
-object Ratings{
+object Ratingsr{
   implicit lazy val ratingsfmt = Json.format[Ratings]
 }

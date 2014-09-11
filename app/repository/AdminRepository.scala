@@ -10,12 +10,12 @@ import scala.slick.lifted.ProvenShape
  */
 object AdminRepository {
 
-  class AdminRepository(tag:Tag) extends Table[(String)](tag, "Admin")
+  class AdminRepository(tag:Tag) extends Table[Admin](tag, "Admin")
   {
     def id = column[String]("ADMIN_ID", O.PrimaryKey)
 
-    //def * = (id) <> ( )
-    override def * : ProvenShape[(String)] = (id)
+    def * = id <> ( Admin, Admin.unapply )
+    //override def * : ProvenShape[(String)] = (id)
   }
 
   val admin = TableQuery[AdminRepository]

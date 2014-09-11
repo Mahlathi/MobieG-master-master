@@ -1,4 +1,4 @@
-package people
+package domain.people
 
 import play.api.libs.json.Json
 
@@ -8,6 +8,6 @@ import play.api.libs.json.Json
 
 case class Facilitator(id:String)
 
-object Facilitator {
+object Facilitators {
   implicit lazy val facilitatorfmt = Json.format[Facilitator]
 }

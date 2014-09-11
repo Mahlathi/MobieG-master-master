@@ -1,5 +1,6 @@
 package repository
 
+import domain.stuff.Sponsor
 import org.h2.engine.Database
 import repository.ChannelRepository.ChannelRepository
 
@@ -11,7 +12,7 @@ import scala.slick.lifted.ProvenShape
  */
 object SponsorRepository {
 
-    class SponsorRepository(tag: Tag) extends Table[(String, String, String, String, String, String)](tag, "Sponsor"){
+    class SponsorRepository(tag: Tag) extends Table[Sponsor](tag, "Sponsor"){
 
       def id = column[String]("SPONSOR_ID", O.PrimaryKey)
 
@@ -25,10 +26,10 @@ object SponsorRepository {
 
       def channelID = column[String]("SPONSOR_CHANNELID")
 
-      def sponsor = (id, name, url, message, imageID, channelID )
+      //def sponsor = (id, name, url, message, imageID, channelID )
 
 
-       def * = (id, name, url, message, imageID, channelID)
+       def * = (id, name, url, message, imageID, channelID) <> ( Sponsor.tupled, Sponsor.unapply )
 
 
       def channel = foreignKey("CH_FK", channelID, TableQuery[ChannelRepository])(_.id)

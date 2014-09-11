@@ -18,6 +18,6 @@ case class Person(id:String,
                   membersId:String
                    )
 
-object Person{
+object Persons{
   implicit lazy val personfmt = Json.format[Person]
 }

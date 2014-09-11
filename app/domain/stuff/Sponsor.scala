@@ -1,3 +1,5 @@
+package domain.stuff
+
 import play.api.libs.json.Json
 
 /**
@@ -13,6 +15,6 @@ case class Sponsor
  channelId:String
   )
 
-object Sponsor{
+object Sponsors{
   implicit lazy val sponsorfmt = Json.format[Sponsor]
 }

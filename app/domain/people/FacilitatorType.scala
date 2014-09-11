@@ -7,6 +7,6 @@ import play.api.libs.json.Json
  */
 case class FacilitatorType(id:String, name:String, description:String, facilitatorId:String)
 
-object FacilitatorType{
+object FacilitatorTypes{
   implicit lazy val facilitatortypefmt = Json.format[FacilitatorType]
 }

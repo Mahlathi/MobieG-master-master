@@ -8,5 +8,5 @@ import repository.PersonRepository.PersonRepository
  */
 trait getAllFacilitatorsInt {
       def getAll() : List[PersonRepository#TableElementType]
-      //def changeType( anyL : List[PersonRepository#TableElementType] ): List[String]
+      def funup( anyL : List[PersonRepository#TableElementType] ): List[PersonRepository#TableElementType]
 }

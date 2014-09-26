@@ -1,5 +1,9 @@
 package services.impl
 
+import java.util
+
+import domain.people.Facilitator
+import people.Person
 import repository.PersonRepository
 import repository.PersonRepository.PersonRepository
 
@@ -22,18 +26,26 @@ class getAllFacilitatorsImpl extends getAllFacilitatorsInt{
       val peeps = allP.list
       val facs = allF.list
 
-      val showF = facs.filter( f => f.id == f.id )
-      val showP = peeps.filter( p => p.facilitatorId != 0  )
 
 
-       showP
+
+        for( i <- 1 to peeps.size - 2 if i < peeps.size )
+        {
+          val showF = facs.filter( f => f.id == f.id )
+          val temp = peeps.filter(p => p.facilitatorId.equals(showF(i).id))
+          funup(temp)
+        }
+
+
+     peeps
 
     }
   }
 
-  /*override def changeType( obj : List[PersonRepository#TableElementType] ): List[String] =
+  def funup( onb : List[PersonRepository#TableElementType] ) : List[PersonRepository#TableElementType] =
   {
-        val newOb = obj.map(_.toString).to[List[String]]
-        newOb
-  }*/
+     //print( "We did this" + onb)
+     onb
+  }
+
 }

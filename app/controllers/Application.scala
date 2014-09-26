@@ -57,8 +57,10 @@ object Application extends Controller {
 
     facList = testthree.getAll()
     //newL = testthree.changeType(facList)
+    print( "i hope i work: " + testthree.funup(facList) + "OOOOO" + facList.size )
 
-    print( " The size is " + facList.size + "\n\n" )
+
+    print( " The size iss " + facList.size + "\n\n" )
     for ( j <- facList ) println(  " Name: " + j.firstname + " Surname: " + j.surname + " Email: " + j.password  + "\n" )
 
 

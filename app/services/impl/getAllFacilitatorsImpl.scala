@@ -28,24 +28,17 @@ class getAllFacilitatorsImpl extends getAllFacilitatorsInt{
 
 
 
-
-        for( i <- 1 to peeps.size - 2 if i < peeps.size )
-        {
           val showF = facs.filter( f => f.id == f.id )
-          val temp = peeps.filter(p => p.facilitatorId.equals(showF(i).id))
-          funup(temp)
-        }
 
+          val temp = peeps.filter(_.facilitatorId != 0  )
 
-     peeps
+          //print( "Heeeeeeeeeeeee" + temp)
+
+       temp
 
     }
   }
 
-  def funup( onb : List[PersonRepository#TableElementType] ) : List[PersonRepository#TableElementType] =
-  {
-     //print( "We did this" + onb)
-     onb
-  }
+
 
 }

@@ -57,7 +57,7 @@ object Application extends Controller {
 
     facList = testthree.getAll()
     //newL = testthree.changeType(facList)
-    print( "i hope i work: " + testthree.funup(facList) + "OOOOO" + facList.size )
+
 
 
     print( " The size iss " + facList.size + "\n\n" )

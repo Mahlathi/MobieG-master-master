@@ -1,0 +1,37 @@
+package services.impl
+
+import domain.stuff.Channel
+import repository.ChannelRepository.ChannelRepository
+import services.ChannelService
+import scala.slick.driver.MySQLDriver.simple._
+import scala.slick.lifted.TableQuery
+/**
+ * Created by joseph on 2014/09/25.
+ */
+class ChannelServiceImpl extends ChannelService
+{
+  val channelRepo = TableQuery[ChannelRepository]
+
+  override def getAllChannels(): List[ChannelRepository#TableElementType] =
+  {
+    Database.forURL("jdbc:mysql://localhost:3306/test", driver = "com.mysql.jdbc.Driver", user = "root", password = "root").withSession
+    {
+      implicit session =>
+
+      val channelList = channelRepo.list
+      channelList
+    }
+  }
+
+  override def chooseChannel(channelId : String) : List[ChannelRepository#TableElementType] =
+  {
+    Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession
+    {
+      implicit session =>
+
+        val channelList = channelRepo.list
+        val channel = channelList.filter(_.id == channelId)
+        channel
+    }
+  }
+}

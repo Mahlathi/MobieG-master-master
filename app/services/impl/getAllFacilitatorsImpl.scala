@@ -32,13 +32,11 @@ class getAllFacilitatorsImpl extends getAllFacilitatorsInt{
 
           val temp = peeps.filter(_.facilitatorId != 0  )
 
-          //print( "Heeeeeeeeeeeee" + temp)
 
-       temp
+
+
+      peeps
 
     }
   }
-
-
-
 }

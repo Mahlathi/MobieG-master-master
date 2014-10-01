@@ -33,7 +33,7 @@ class TestFacilitatorType extends FeatureSpec with GivenWhenThen
 
 
         //info("Creating a Care Plan")
-<<<<<<< HEAD
+
 //        val fac = Facilitator("126")
 
   //       val chan = FacilitatorType("147", "Medical", "Help with any medical probelm", fac.id)
@@ -43,7 +43,7 @@ class TestFacilitatorType extends FeatureSpec with GivenWhenThen
     //     val other = facilitator.insert(fac)
 
       //   val valo = facirepo.insert(chan)
-=======
+
         //val fac = Facilitator("121")
 
          //val chan = FacilitatorType("144", "John", "Spoken word", fac.id)
@@ -53,7 +53,7 @@ class TestFacilitatorType extends FeatureSpec with GivenWhenThen
          //val other = facilitator.insert(fac)
 
          // val valo = facirepo.insert(chan)
->>>>>>> origin/master
+
         //assert(results.size == 2)
 
         //Testing for extraction
@@ -99,11 +99,11 @@ class TestFacilitatorType extends FeatureSpec with GivenWhenThen
         info("Updating things")
         Update("Spoken word", "144")
         info("Deleting things")
-<<<<<<< HEAD
+
         //Delete("144")
-=======
+
         Delete("144")
->>>>>>> origin/master
+
 
       }
     }

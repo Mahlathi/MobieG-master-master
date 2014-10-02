@@ -14,12 +14,13 @@ class ChannelServiceImpl extends ChannelService
 
   override def getAllChannels(): List[ChannelRepository#TableElementType] =
   {
-    Database.forURL("jdbc:mysql://localhost:3306/test", driver = "com.mysql.jdbc.Driver", user = "root", password = "root").withSession
+    Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession
     {
       implicit session =>
 
-      val channelList = channelRepo.list
-      channelList
+      val channelListo = channelRepo.list
+
+      channelListo
     }
   }
 

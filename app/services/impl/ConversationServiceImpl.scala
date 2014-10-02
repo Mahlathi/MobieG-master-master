@@ -1,5 +1,6 @@
 package services.impl
 
+import repository.ConversationMessageRepository.ConversationMessageRepository
 import repository.ConversationRepository.ConversationRepository
 import services.ConversationService
 import scala.slick.driver.MySQLDriver.simple._
@@ -9,15 +10,17 @@ import scala.slick.lifted.TableQuery
  */
 class ConversationServiceImpl extends ConversationService
 {
-  val convoRepo = TableQuery[ConversationRepository]
+  val convoRepo = TableQuery[ConversationMessageRepository]
 
-  override def getAllConversationsOfFacilitator(facID: String): List[ConversationRepository#TableElementType] =
+  override def getAllConversationsOfFacilitator(facID: String, memID: String): List[ConversationMessageRepository#TableElementType] =
   {
-    Database.forURL("jdbc:mysql://localhost:3306/test", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession
+    Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession
     {
       implicit session =>
 
-        val convoList = convoRepo.list.filter( _.facilitatorId == facID )
+        val convo = convoRepo.list
+
+        val convoList = convo.filter( p => p.facilitatorId == facID && p.memberId == memID)
         convoList
     }
   }

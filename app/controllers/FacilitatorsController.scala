@@ -11,14 +11,14 @@ import repository.PersonRepository.PersonRepository
 import services.getAllFacilitatorsInt
 import services.impl.getAllFacilitatorsImpl
 
-object ListFacilitatorsController extends Controller{
+object FacilitatorsController extends Controller{
 
   var facList: List[PersonRepository#TableElementType] = null
 
   val testthree: getAllFacilitatorsInt = new getAllFacilitatorsImpl
 
   facList = testthree.getAll()
-  //val newOther = facList.map( p => p.firstname )
+
 
   implicit val facsWrites = Json.writes[Person]
 

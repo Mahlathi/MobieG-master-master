@@ -17,14 +17,15 @@ object FacilitatorsController extends Controller{
 
   val testthree: getAllFacilitatorsInt = new getAllFacilitatorsImpl
 
-  facList = testthree.getAll()
+  //facList = testthree.getAll()
 
 
   implicit val facsWrites = Json.writes[Person]
 
-  def listFacilitators = Action{
+  def listFacilitators() = Action{
 
-    val json = Json.toJson(facList)
+    val facs = testthree.getAll()
+    val json = Json.toJson(facs)
     Ok(json)
   }
 

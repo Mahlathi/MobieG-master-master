@@ -15,13 +15,14 @@ object SecChannelController extends Controller {
   var channelListTwo: List[ChannelRepository#TableElementType] = null
   val chanObjs: ChannelService = new ChannelServiceImpl
 
-  channelListTwo = chanObjs.getAllChannels()
+  //channelListTwo = chanObjs.getAllChannels()
 
   implicit val absoNew = Json.reads[Channel]
 
-  def listChannelTwo = Action{
+  def listChannelTwo() = Action{
 
-    val json = Json.toJson(channelListTwo)
+    val two = chanObjs.getAllChannels()
+    val json = Json.toJson(two)
     Ok(json)
   }
 

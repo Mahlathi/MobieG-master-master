@@ -1,5 +1,6 @@
 package services.crudservices
 
+import domain.people.Facilitator
 import domain.stuff.Conversation
 import repository.ConversationRepository.ConversationRepository
 import repository.FacilitatorRepository.FacilitatorRepository
@@ -21,24 +22,16 @@ class ConversationCRUD {
     // convorepo.ddl.create
 
 
-    //info("Creating conversations")
-    //val fac = Facilitator("15")
-
-
-
-    //val chan = Conversation("12", "Winners win all the time", "4")
-
-
-    //val other = facilitator.insert(fac)
-    //val valo = convorepo.insert(chan)
-
+    def create( fac: Facilitator, convo: Conversation ) = {
+      val other = facilitator.insert(fac)
+      val valo = convorepo.insert(convo)
+    }
 
     //Testing for extraction
     def Read(name: String, id: String) =
       convorepo foreach { case (count: Conversation) =>
 
       }
-
 
     def Update( desc: String, id: String) =
     {
@@ -48,7 +41,6 @@ class ConversationCRUD {
       }
     }
 
-
     def Delete(id: String) =
     {
       convorepo.filter(_.id === id).delete
@@ -57,14 +49,6 @@ class ConversationCRUD {
 
       }
     }
-
-
-    Read("Hotness sanas", "22")
-
-    Update("Hotnesss sana", "22")
-
-    Delete("22")
-
   }
 }
 

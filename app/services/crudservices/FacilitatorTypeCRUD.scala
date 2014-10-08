@@ -1,5 +1,6 @@
 package services.crudservices
 
+import domain.people.Facilitator
 import people.FacilitatorType
 import repository.FacilitatorRepository.FacilitatorRepository
 import repository.FacilitatorTypeRepository.FacilitatorTypeRepository
@@ -21,37 +22,15 @@ class FacilitatorTypeCRUD {
     //facirepo.ddl.create
 
 
-    //info("Creating a Care Plan")
-
-    //        val fac = Facilitator("126")
-
-    //       val chan = FacilitatorType("147", "Medical", "Help with any medical probelm", fac.id)
-
-
-
-    //     val other = facilitator.insert(fac)
-
-    //   val valo = facirepo.insert(chan)
-
-    //val fac = Facilitator("121")
-
-    //val chan = FacilitatorType("144", "John", "Spoken word", fac.id)
-
-
-
-    //val other = facilitator.insert(fac)
-
-    // val valo = facirepo.insert(chan)
-
-    //assert(results.size == 2)
+     def create( fac: Facilitator, typ: FacilitatorType ) = {
+        val other = facilitator.insert(fac)
+       val valo = facirepo.insert(typ)
+    }
 
     //Testing for extraction
     def Read(descri: String, id: String) =
       facirepo foreach { case (count: FacilitatorType) =>
-
-
-
-      }
+    }
 
 
 
@@ -62,24 +41,12 @@ class FacilitatorTypeCRUD {
       }
     }
 
-
-
-    def Delete(id: String) = {
+     def Delete(id: String) = {
       facirepo.filter(_.id === id).delete
       facilitator.filter(_.id === id).delete
       facirepo foreach { case (chann: FacilitatorType) =>
 
       }
     }
-
-
-    Read("Spoken word", "144")
-
-    Update("Spoken word", "144")
-
-
-    Delete("144")
-
-
   }
 }

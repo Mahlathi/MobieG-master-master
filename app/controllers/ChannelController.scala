@@ -16,22 +16,33 @@ import services.impl.ChannelServiceImpl
 object ChannelController extends Controller{
 
 
+
   var channelListOne: List[ChannelRepository#TableElementType] = null
 
 
   val chanObj: ChannelService = new ChannelServiceImpl
 
 
-  channelListOne = chanObj.chooseChannel("60")
+  //channelListOne = chanObj.chooseChannel("60")
 
 
   implicit val chanWrites = Json.writes[Channel]
 
-  def listChannelOne = Action{
+  def listChannelOne(id: String) = Action{
 
-    val json = Json.toJson(channelListOne)
+    val chan = chanObj.chooseChannel(id)
+    val json = Json.toJson(chan)
     Ok(json)
   }
+
+
+/* def create(chan:Channel) = Action.async(parse.json)
+ {
+    request =>
+
+    val input = request.body
+    val feedsModel = Json.fromJson[Channel](input).get
+ }*/
 
   def index = Action {
 

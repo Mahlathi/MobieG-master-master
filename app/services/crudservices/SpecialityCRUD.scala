@@ -1,5 +1,6 @@
 package services.crudservices
 
+import domain.people.Facilitator
 import domain.stuff.Speciality
 import repository.FacilitatorRepository.FacilitatorRepository
 import repository.SpecialityRepository.SpecialityRepository
@@ -21,25 +22,16 @@ class SpecialityCRUD {
     //specsd.ddl.create
 
 
-    //info("Creating a Care Plan")
-
-
-    //val fac = Facilitator("05")
-
-    //val chan = Speciality("66", "Hire", "we tried", fac.id)
-
-    //val other = facilitator.insert(fac)
-
-    //val valo = specsd.insert(chan)
-
+    def create( fac: Facilitator, spec: Speciality ) =
+    {
+       val other = facilitator.insert(fac)
+       val valo = specsd.insert(spec)
+    }
 
     //Testing for extraction
     def Read(name: String, id: String) =
       specsd foreach { case (count: Speciality) =>
-
-
-
-      }
+     }
 
     def Update( desc: String, id: String) =
     {
@@ -57,13 +49,5 @@ class SpecialityCRUD {
 
       }
     }
-
-
-    Read("Hotness", "66")
-
-    Update("Wooloo", "66")
-
-    Delete("66")
-
   }
 }

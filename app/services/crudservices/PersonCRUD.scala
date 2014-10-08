@@ -1,6 +1,7 @@
 package services.crudservices
 
-import people.Person
+import domain.people.Facilitator
+import people.{Admin, Members, Person}
 import repository.AdminRepository.AdminRepository
 import repository.FacilitatorRepository.FacilitatorRepository
 import repository.MembersRepository.MembersRepository
@@ -23,27 +24,16 @@ class PersonCRUD {
     //Creating tables
     //peeps.ddl.create
 
+     def create( fac: Facilitator, mem: Members, adm: Admin, perc: Person ) = {
 
-    // info("Creating a Care Plan")
+        val one = facilitator.insert(fac)
 
+        val two = memrepo.insert(mem)
 
-    // val fac = Facilitator("124")
+        val three = admin.insert(adm)
 
-    // val chan = Members("13901",fac.id)
-
-    // val adm = Admin("443200")
-
-    //  val bantu = Person("10121","King", "Adam","Gekko","London","Cheff","bored@yahoo.com","tttddfs", adm.id, fac.id, chan.id)
-
-    //val one = facilitator.insert(fac)
-
-
-    // val two = memrepo.insert(chan)
-
-    //  val three = admin.insert(adm)
-
-    // val four = peeps.insert(bantu)
-
+        val four = peeps.insert(perc)
+     }
 
     //Testing for extraction
     def Read(name: String, id: String) =
@@ -71,13 +61,5 @@ class PersonCRUD {
 
       }
     }
-
-    // info("Reading things")
-    // Read("Legend", "27")
-    //info("Updating things")
-    // Update("Legends", "27")
-    // info("Deleting things")
-    //Delete("27")
-
   }
 }

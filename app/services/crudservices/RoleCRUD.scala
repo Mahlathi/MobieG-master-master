@@ -19,12 +19,10 @@ class RoleCRUD {
     //Creating tables
     // role.ddl.create
 
-
-    //info("Creating a Care Plan")
-    //val chan = Role("14", "assistant", "Very easy")
-
-    //val valo = role.insert(chan)
-
+    def create( rol: Role ) =
+    {
+       val valo = role.insert(rol)
+    }
 
     //Testing for extraction
     def Read(name: String, id: String) =
@@ -47,13 +45,5 @@ class RoleCRUD {
 
       }
     }
-
-
-    Read("Hotness sanas", "14")
-
-    Update("Hotness sana", "14")
-
-    Delete("14")
-
   }
 }

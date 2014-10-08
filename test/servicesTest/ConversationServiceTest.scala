@@ -1,7 +1,7 @@
 package serviceTests
 
 import org.scalatest.{GivenWhenThen, FeatureSpec}
-import repository.ConversationRepository.ConversationRepository
+import repository.ConversationMessageRepository.ConversationMessageRepository
 import services.ConversationService
 import services.impl.ConversationServiceImpl
 import scala.slick.driver.MySQLDriver.simple._
@@ -27,8 +27,8 @@ class ConversationServiceTest extends FeatureSpec with GivenWhenThen
 
             def getAll : Unit =
             {
-              var getallConvoID :List[ConversationRepository#TableElementType] = List()
-              getallConvoID = conversation.getAllConversationsOfFacilitator("Conver1")
+              var getallConvoID :List[ConversationMessageRepository#TableElementType] = null
+              getallConvoID = conversation.getAllConversationsOfFacilitator("4","5")
               assert(getallConvoID.size == 1)
             }
 

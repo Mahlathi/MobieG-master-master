@@ -1,6 +1,7 @@
 package services.crudservices
 
-import domain.stuff.Sponsor
+import domain.people.Facilitator
+import domain.stuff.{Speciality, Channel, Sponsor}
 import repository.ChannelRepository.ChannelRepository
 import repository.FacilitatorRepository.FacilitatorRepository
 import repository.SpecialityRepository.SpecialityRepository
@@ -10,8 +11,10 @@ import scala.slick.lifted.TableQuery
 
 /**
  * Created by akhona on 2014/10/02.
- */
-class SponsorCRUD {
+ *
+ * */
+
+ class SponsorCRUD {
   val channel = TableQuery[ChannelRepository]
   val spons = TableQuery[SponsorRepository]
   val fac = TableQuery[FacilitatorRepository]
@@ -22,24 +25,17 @@ class SponsorCRUD {
     //Creating tables
     //spons.ddl.create
 
+    def create( facs: Facilitator, chan: Channel, spec: Speciality, spo: Sponsor ) =
+    {
 
-    // info("Creating a Care Plan")
-    //  val fecs = Facilitator("702")
+       val other = fac.insert(facs)
 
-    ///  val chan = Channel("602", "Mai", "Host them",fecs.id)
+       val valo = channel.insert(chan)
 
-    /// val spo = Speciality("702", "jazee", "what it do main",fecs.id)
+       val vho = specs.insert(spec)
 
-    // val into = Sponsor("412", "Magigolo", "hhps://www.google.com","Take the money and go", "4554",chan.id)
-
-    // val other = fac.insert(fecs)
-
-    /// val valo = channel.insert(chan)
-
-    /// val vho = specs.insert(spo)
-
-    //val nser = spons.insert(into)
-
+       val nser = spons.insert(spo)
+    }
 
     //Testing for extraction
     def Read(name: String, id: String) =
@@ -66,13 +62,6 @@ class SponsorCRUD {
 
       }
     }
-
-
-    Read("Take the money and go", "41")
-
-    Update("Hotness na ngoku", "41")
-
-    Delete("41")
-
   }
 }
+

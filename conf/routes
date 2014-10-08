@@ -4,10 +4,11 @@
 
 # Home page
 GET     /                           controllers.Application.index
-GET     /listfacs                   controllers.FacilitatorsController.listFacilitators
-GET     /chanOne                    controllers.ChannelController.listChannelOne
-GET     /chanTwo                    controllers.SecChannelController.listChannelTwo
-GET     /convo                      controllers.ConversationController.listConversation
+GET     /listfacs                   controllers.FacilitatorsController.listFacilitators()
+GET     /chanOne/:id                    controllers.ChannelController.listChannelOne(id: String)
+GET     /chanTwo                    controllers.SecChannelController.listChannelTwo()
+GET     /convo/:fId/:mId                      controllers.ConversationController.listConversation(fId: String, mId: String)
+POST     /adminCreate/:adms                    controllers.CreateAdminController.create(adms: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

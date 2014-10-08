@@ -1,5 +1,6 @@
 package services.crudservices
 
+import domain.people.Facilitator
 import domain.stuff.Ratings
 import repository.FacilitatorRepository.FacilitatorRepository
 import repository.RatingRepository.RatingRepository
@@ -20,18 +21,12 @@ class RatingsCRUD {
     //Creating tables
     //ratrepo.ddl.create
 
+    def create( fac: Facilitator, rat: Ratings ) =
+    {
+      val other = facilitator.insert(fac)
 
-    //info("Creating a Care Plan")
-
-
-    //val fac = Facilitator("13")
-
-    //val chan = Ratings("42", 7, "Well does it son", fac.id)
-
-    //val other = facilitator.insert(fac)
-
-    //val valo = ratrepo.insert(chan)
-
+      val valo = ratrepo.insert(rat)
+    }
 
     //Testing for extraction
     def Read(name: String, id: String) =
@@ -55,13 +50,5 @@ class RatingsCRUD {
 
       }
     }
-
-
-    Read("You tried mate", "42")
-
-    Update("You tried mate", "42")
-
-    Delete("42")
-
   }
 }

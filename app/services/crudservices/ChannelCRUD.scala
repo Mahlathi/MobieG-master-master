@@ -1,5 +1,6 @@
 package services.crudservices
 
+import domain.people.Facilitator
 import domain.stuff.Channel
 import repository.ChannelRepository.ChannelRepository
 import repository.FacilitatorRepository.FacilitatorRepository
@@ -9,11 +10,19 @@ import scala.slick.lifted.TableQuery
 /**
  * Created by akhona on 2014/10/02.
  */
-class ChannelCRUD {
+class ChannelCRUD extends ChanTestInterface{
   val channel = TableQuery[ChannelRepository]
   val facilitator = TableQuery[FacilitatorRepository]
 
+  override def create( chan: Channel, fac: Facilitator ) {
+    Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
+
+      val other = facilitator.insert(fac)
+
+      val valo = channel.insert(chan)
+    }
+  }
 
   Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
@@ -22,22 +31,15 @@ class ChannelCRUD {
 
 
 
-    // val chan = Channel("6", "Phumeza", "She is simply the best", "8")
-
-    // val fac = Facilitator("8")
-
-    //val other = facilitator.insert(fac)
-
-    // val valo = channel.insert(chan)
-    //assert(results.size == 2)
 
     //Testing for extraction
     def Read(name: String, id: String) =
       channel foreach { case (count: Channel) =>
+        if (count.id.contentEquals(id)){
 
 
-
-      }
+        }
+    }
 
     def Update( desc: String, id: String) =
     {
@@ -55,14 +57,6 @@ class ChannelCRUD {
 
       }
     }
-
-
-    Read("Hotness sana", "1")
-
-    Update("Hotness sana", "1")
-
-    Delete("<function>")
-
   }
 }
 

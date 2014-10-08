@@ -18,13 +18,14 @@ object ConversationController extends Controller{
 
   val convo: ConversationService = new ConversationServiceImpl
 
-  convoRepo = convo.getAllConversationsOfFacilitator("4", "5")
+  //convoRepo = convo.getAllConversationsOfFacilitator("4", "5")
 
   implicit val convoWrites = Json.writes[ConversationMessage]
 
-  def listConversation = Action{
+  def listConversation(fId: String, mId: String) = Action{
 
-    val json = Json.toJson(convoRepo)
+    val convos = convo.getAllConversationsOfFacilitator(fId, mId)
+    val json = Json.toJson(convos)
     Ok(json)
   }
 

@@ -1,5 +1,6 @@
 package services.crudservices
 
+import domain.people.Facilitator
 import people.Members
 import repository.FacilitatorRepository.FacilitatorRepository
 import repository.MembersRepository.MembersRepository
@@ -22,26 +23,17 @@ class MembersCRUD {
     //Creating tables
     //  memrepo.ddl.create
 
+    def create( mem: Members, fac: Facilitator ) = {
 
-    //info("Creating a Care Plan")
-
-
-    //val fac = Facilitator("100000")
-
-    //       val chan = Members("113",fac.id)
-
-    //     val other = facilitator.insert(fac)
-
-    //    val valo = memrepo.insert(chan)
-
+           val other = facilitator.insert(fac)
+           val valo = memrepo.insert(mem)
+    }
 
     //Testing for extraction
     def Read(others: String, id: String) =
       memrepo foreach { case (count: Members) =>
 
       }
-
-
 
     def Update( desc: String, id: String) =
     {
@@ -51,8 +43,6 @@ class MembersCRUD {
       }
     }
 
-
-
     def Delete(id: String) =
     {
       memrepo.filter(_.id === id).delete
@@ -61,12 +51,5 @@ class MembersCRUD {
 
       }
     }
-
-    Read("123", "101")
-
-    // Update("8", "61")
-
-    //Delete("83")
-
   }
 }

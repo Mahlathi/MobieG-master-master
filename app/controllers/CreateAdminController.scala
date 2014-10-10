@@ -12,7 +12,8 @@ import services.crudservices.{AdminTestCRUDInterface, AdminCRUD}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object CreateAdminController extends Controller {
+object CreateAdminController extends Controller
+{
 
     //val adm: AdminCRUD = new AdminCRUD
 
@@ -25,14 +26,14 @@ object CreateAdminController extends Controller {
           val adminModel = Json.fromJson[AdminModel](input).get
           val admin = adminModel.getDomain()
           val adm: AdminTestCRUDInterface = new AdminCRUD
-            val res = adm.create(admin)
-            //println(" DO We have the ID!!!", res.id)
+          val res = adm.create(admin)
+          //println(" DO We have the ID!!!", res.id)
           val results: Future[Admin] = Future{res}
-//          val results = adm.create(admin)
+//        val results = adm.create(admin)
 
           results.map(result => Ok(
 
-            Json.toJson(result)))
+          Json.toJson(result)))
 
     }
 

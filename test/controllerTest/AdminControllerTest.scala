@@ -18,11 +18,13 @@ import play.api.test.{FakeRequest, WithApplication}
  */
 
 @RunWith(classOf[JUnitRunner])
-class AdminControllerTest extends Specification {
+class AdminControllerTest extends Specification
+{
   val gson = new Gson()
 
-  "Controllers" should {
-    "Should create Admin Object" in new WithApplication() {
+  "Controllers" should
+    {
+      "Should create Admin Object" in new WithApplication()
       {
         val role = AdminModel("045546")
         val jsonstring = gson.toJson(role).stripMargin
@@ -30,13 +32,11 @@ class AdminControllerTest extends Specification {
         val Some(result) = route(FakeRequest(
           POST, "/adminCreate/:adms").withJsonBody(json)
         )
-
         status(result) must equalTo(OK)
         Logger.debug(" The Result is " + result)
         contentType(result) must beSome("application/json")
 
       }
     }
-  }
 
 }

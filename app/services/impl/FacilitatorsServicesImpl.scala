@@ -14,8 +14,6 @@ class FacilitatorsServicesImpl extends FacilitatorServices
   var memberRepo = TableQuery[MembersRepository]
   var facilitatorRepo = TableQuery[FacilitatorRepository]
 
-
-
 //  override def getAllMembersServed(facilitatorID : String): List[MembersRepository#TableElementType] =
 //  {
 //    Database.forURL("jdbc:mysql://localhost:3306/test", driver = "com.mysql.jdbc.Driver", user = "root", password = "root").withSession {

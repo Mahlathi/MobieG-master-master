@@ -8,11 +8,13 @@ import play.api.libs.json.Json
  * Created by alex on 2014/10/07.
  */
 
-case class ChannelModel(id: String, name: String, description: String, facilitatorId: String){
+case class ChannelModel(id: String, name: String, description: String, facilitatorId: String)
+{
   def getDomain(): Channel = ChannelModel.domain(this)
 }
 
-object ChannelModel {
+object ChannelModel
+{
   implicit val adminfmt = Json.format[ChannelModel]
 
   def domain(model: ChannelModel) = {

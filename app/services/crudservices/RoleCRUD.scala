@@ -8,21 +8,13 @@ import scala.slick.driver.MySQLDriver.simple._
 /**
  * Created by akhona on 2014/10/02.
  */
-class RoleCRUD {
+class RoleCRUD extends RoleCRUDInterface {
   val role = TableQuery[RoleRepository]
-
-
-
 
   Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
     //Creating tables
     // role.ddl.create
-
-    def create( rol: Role ) =
-    {
-       val valo = role.insert(rol)
-    }
 
     //Testing for extraction
     def Read(name: String, id: String) =
@@ -45,5 +37,14 @@ class RoleCRUD {
 
       }
     }
+  }
+
+  override def create(rol: Role) : Role =
+  {
+    Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
+
+      val valo = role.insert(rol)
+    }
+    rol
   }
 }

@@ -32,8 +32,6 @@ class AdminCRUD extends AdminTestCRUDInterface{
 
     //Inserting
 
-
-
     //Testing for extraction
     def Read(id: String) =
       adminrepo foreach { case (count: Admin) =>

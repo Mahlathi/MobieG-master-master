@@ -2,7 +2,7 @@ package controllerTest
 
 
 import com.google.gson.Gson
-import models.AdminModel
+import models.{UserHistoryModel, AdminModel}
 import org.junit.runner.RunWith
 import org.specs2.mutable.Specification
 import org.specs2.runner.JUnitRunner
@@ -24,7 +24,7 @@ class AdminControllerTest extends Specification {
   "Controllers" should {
     "Should create Admin Object" in new WithApplication() {
       {
-        val role = AdminModel("045546")
+        val role = AdminModel("1008006")
         val jsonstring = gson.toJson(role).stripMargin
         val json = Json.parse(jsonstring)
         val Some(result) = route(FakeRequest(

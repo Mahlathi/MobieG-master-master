@@ -12,10 +12,50 @@ import scala.slick.lifted.TableQuery
  */
 import scala.slick.driver.MySQLDriver.simple._
 
-class MembersCRUD {
+class MembersCRUD extends MembersCRUDInterface{
   val memrepo = TableQuery[MembersRepository]
   val facilitator = TableQuery[FacilitatorRepository]
 
+  override def create( mem: Members, fac: Facilitator ): Members= {
+    Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
+
+      val other = facilitator.insert(fac)
+      val valo = memrepo.insert(mem)
+    }
+    mem
+  }
+
+  override def read(others: String, id: String) = {
+    Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
+
+      memrepo foreach { case (count: Members) =>
+
+      }
+    }
+  }
+
+  override def update( desc: String, id: String) =
+  {
+    Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
+
+      memrepo.filter(_.id === id).map(_.facilitator_id).update(desc)
+      memrepo foreach { case (chann: Members) =>
+
+      }
+    }
+  }
+
+  override def delete(id: String) =
+  {
+    Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
+
+      memrepo.filter(_.id === id).delete
+      facilitator.filter(_.id === id).delete
+      memrepo foreach { case (chann: Members) =>
+
+      }
+    }
+  }
 
 
   Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>

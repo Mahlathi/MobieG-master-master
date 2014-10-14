@@ -10,11 +10,11 @@ import scala.slick.lifted.TableQuery
 /**
  * Created by akhona on 2014/10/02.
  */
-class ChannelCRUD extends ChanTestInterface{
+class ChannelCRUD extends ChannelCRUDInterface {
   val channel = TableQuery[ChannelRepository]
   val facilitator = TableQuery[FacilitatorRepository]
 
-  override def create( chan: Channel, fac: Facilitator ) {
+  override def create(chan: Channel, fac: Facilitator): Channel = {
     Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
 
@@ -22,9 +22,46 @@ class ChannelCRUD extends ChanTestInterface{
 
       val valo = channel.insert(chan)
     }
+    chan
   }
 
-  Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
+
+  override def read(name: String, id: String): List[ChannelRepository#TableElementType] = {
+    Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
+
+      val chan = channel.list
+      val one = chan.filter( p => p.id == id && p.name == name )
+
+      one
+    }
+  }
+
+
+  override def update( desc: String, id: String) =
+  {
+    Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
+
+      channel.filter(_.id === id).map(_.description).update(desc)
+
+    }
+  }
+
+
+  override def delete(id: String) =
+  {
+
+    Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
+
+      channel.filter(_.id === id).delete
+      facilitator.filter(_.id === id).delete
+      channel foreach { case (chann: Channel) =>
+
+      }
+    }
+  }
+
+
+  /*(Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
     //Creating tables
     //( channel.ddl ++ facilitator.ddl ).create
@@ -57,6 +94,6 @@ class ChannelCRUD extends ChanTestInterface{
 
       }
     }
-  }
+  }*/
 }
 

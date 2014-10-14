@@ -4,11 +4,65 @@
 
 # Home page
 GET     /                           controllers.Application.index
-GET     /listfacs                   controllers.FacilitatorsController.listFacilitators()
-GET     /chanOne/:id                    controllers.ChannelController.listChannelOne(id: String)
-GET     /chanTwo                    controllers.SecChannelController.listChannelTwo()
-GET     /convo/:fId/:mId                      controllers.ConversationController.listConversation(fId: String, mId: String)
-POST     /adminCreate/:adms                    controllers.CreateAdminController.create(adms: String)
+#Admin
+POST    /createAdmin/:adms          controllers.AdminController.create(adms: String)
+PUT     /updateAdmin/:adms          controllers.AdminController.update(adms: String)
+DELETE  /deleteAdmin/:id            controllers.AdminController.delete(id: String)
+GET     /readAdmin/:id              controllers.AdminController.read(id: String)
+
+#Channel
+POST    /createChannel/:chan/:fac   controllers.ChannelController.create(chan: String, fac: String)
+PUT     /updateChannel/:id/:chan    controllers.ChannelController.update(id: String, chan: String)
+DELETE  /deleteChannel/:id          controllers.ChannelController.delete(id: String)
+GET     /readChannel/:id/:name      controllers.ChannelController.read(id: String, name: String)
+
+#Conversation
+POST    /createConversation/:convo/:fac controllers.ConversationController.create(convo: String, fac: String)
+PUT     /updateConversation/:chan/:id   controllers.ConversationController.update(chan: String, id: String)
+DELETE  /deleteConversation/:id         controllers.ConversationController.delete(id: String)
+GET     /readConversation/:id/:name     controllers.ConversationController.read(id: String, name: String)
+
+#FacilitatorType
+POST    /createFacilitatorType/:fac/:convo controllers.FacilitatorTypeController.create(fac: String, convo: String)
+PUT     /updateFacilitatorType/:chan/:id   controllers.FacilitatorTypeController.update(chan: String, id: String)
+DELETE  /deleteFacilitatorType/:id         controllers.FacilitatorTypeController.delete(id: String)
+GET     /readFacilitatorType/:id/:description controllers.FacilitatorTypeController.read(id: String, description: String)
+
+#Members
+POST    /createMembers/:mem/:fac    controllers.MembersController.create(mem: String,fac: String)
+PUT     /updateMembers/:chan        controllers.MembersController.update(chan: String)
+DELETE  /deleteMembers/:id          controllers.MembersController.delete(id: String)
+GET     /readMembers/:id/:otherid   controllers.MembersController.read(id: String, otherid: String)
+
+#Person
+POST    /createPerson/:mem/:adm/:fac/:perc     controllers.PersonController.create(mem: String, adm: String, fac: String, perc: String)
+PUT     /updatePerson/:chan/:id         controllers.PersonController.update(chan: String, id: String)
+DELETE  /deletePerson/:id           controllers.PersonController.delete(id: String)
+GET     /readPerson/:id/:name       controllers.PersonController.read(id: String, name: String)
+
+#Ratings
+POST    /createRatings/:mem/:fac     controllers.RatingsController.create(mem: String, fac: String)
+PUT     /updateRatings/:chan/:id     controllers.RatingsController.update(chan: String, id: String)
+DELETE  /deleteRatings/:id           controllers.RatingsController.delete(id: String)
+GET     /read/:id/:otherid           controllers.RatingsController.read(id: String, otherid: String)
+
+#Role
+POST    /createRole/:mem             controllers.RoleController.create(mem: String)
+PUT     /updateRole/:chan/:id        controllers.RoleController.update(chan: String, id: String)
+DELETE  /deleteRole/:id              controllers.RoleController.delete(id: String)
+GET     /readRole/:id/:otherid       controllers.RoleController.read(id: String, otherid: String)
+
+#Speciality
+POST    /createSpeciality/:mem/:fac  controllers.SpecialityController.create(mem: String, fac: String)
+PUT     /updateSpeciality/:chan/:id  controllers.SpecialityController.update(chan: String, id: String)
+DELETE  /deleteSpeciality/:id        controllers.SpecialityController.delete(id: String)
+GET     /readSpeciality/:id/:otherid controllers.SpecialityController.read(id: String, otherid: String)
+
+#Sponsor
+POST    /createSponsor/:facs/:chan/:specs/:spo controllers.SponsorController.create(facs: String, chan: String, specs: String, spo: String)
+PUT     /updateSponsor/:chan/:id     controllers.SponsorController.update(chan: String, id: String)
+DELETE  /deleteSponsor/:id           controllers.SponsorController.delete(id: String)
+GET     /readSponsor/:id/:otherid    controllers.SponsorController.read(id: String, otherid: String )
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

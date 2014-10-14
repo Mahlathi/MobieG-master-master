@@ -12,54 +12,51 @@ import scala.slick.lifted.TableQuery
 /**
  * Created by akhona on 2014/10/02.
  */
-class PersonCRUD {
+class PersonCRUD extends PersonCRUDInterface {
   val admin = TableQuery[AdminRepository]
   val facilitator = TableQuery[FacilitatorRepository]
   val memrepo = TableQuery[MembersRepository]
   val peeps = TableQuery[PersonRepository]
 
+  override def create(fac: Facilitator, mem: Members, adm: Admin, perc: Person): Person = {
+    Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
-  Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
+      val one = facilitator.insert(fac)
 
-    //Creating tables
-    //peeps.ddl.create
+      val two = memrepo.insert(mem)
 
-     def create( fac: Facilitator, mem: Members, adm: Admin, perc: Person ) = {
+      val three = admin.insert(adm)
 
-        val one = facilitator.insert(fac)
-
-        val two = memrepo.insert(mem)
-
-        val three = admin.insert(adm)
-
-        val four = peeps.insert(perc)
-     }
-
-    //Testing for extraction
-    def Read(name: String, id: String) =
-      peeps foreach { case (count: Person) =>
-
-
-
-      }
-
-    def Update( desc: String, id: String) =
-    {
-      peeps.filter(_.id === id).map(_.firstname).update(desc)
-      peeps foreach { case ( chann: Person ) =>
-
-      }
+      val four = peeps.insert(perc)
     }
+    perc
+  }
 
-    def Delete(id: String) =
-    {
+  override def read(name: String, id: String): List[PersonRepository#TableElementType] = {
+    Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
+
+      val input = peeps.list
+
+      val other = input.filter( p => p.firstname == name && p.id == id)
+      other
+    }
+  }
+
+  override def update(desc: String, id: String) = {
+    Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
+
+      peeps.filter(_.id === id).map(_.firstname).update(desc)
+
+    }
+  }
+
+  override def delete(id: String) = {
+    Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
+
       peeps.filter(_.id === id).delete
       admin.filter(_.id === id).delete
       memrepo.filter(_.id === id).delete
       facilitator.filter(_.id === id).delete
-      peeps foreach { case (chann: Person) =>
-
-      }
     }
   }
 }

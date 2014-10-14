@@ -13,7 +13,7 @@ case class ChannelModel(id: String, name: String, description: String, facilitat
 }
 
 object ChannelModel {
-  implicit val adminfmt = Json.format[ChannelModel]
+  implicit val channelfmt = Json.format[ChannelModel]
 
   def domain(model: ChannelModel) = {
       Channel(model.id, model.name, model.description, model.facilitatorId)

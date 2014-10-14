@@ -16,7 +16,9 @@ class getFacilitatorSpecialityImpl extends getFacilitatorSpecialityInt{
   val ftrepo = TableQuery[SpecialityRepository]
 
   override def getSpeciality(speciality: String): List[PersonRepository#TableElementType] = {
-    Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
+    Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession
+    {
+      implicit session =>
 
       val aList = prepo.list
       val bList = ftrepo.list

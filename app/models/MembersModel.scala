@@ -1,0 +1,22 @@
+package models.crudmodels
+
+import people.Members
+import play.api.libs.json.Json
+
+/**
+ * Created by alex on 2014/10/08.
+ */
+case class MembersModel(id:String, facilitatorId:String)
+{
+      def getDomain(): Members = MembersModel.domain(this)
+}
+
+object MembersModel
+{
+  implicit lazy val membersfmt = Json.format[MembersModel]
+
+  def domain(model: MembersModel) =
+  {
+    Members(model.id, model.facilitatorId)
+  }
+}

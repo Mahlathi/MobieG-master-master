@@ -8,7 +8,8 @@ import models.AdminModel
 import people.Admin
 import play.api.libs.json._
 import play.api.mvc._
-import services.crudservices.{AdminTestCRUDInterface, AdminCRUD}
+import services.crudservices.AdminTestCRUDInterface
+import services.crudservices.Impl.AdminCRUD
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -16,21 +17,24 @@ object AdminController extends Controller {
 
     implicit val adminWrites = Json.writes[Admin]
 
-    def create( adms: String) = Action.async(parse.json)
+    def create( Admin: String) = Action.async(parse.json)
     {
           request =>
           val input = request.body
-          //print("Body",input)
-          val adminModel = Json.fromJson[AdminModel](input).get
+
+          val income = (input \ "object").as[String]
+          val json = Json.parse(income)
+          val adminModel = Json.fromJson[AdminModel](json).get
           val admin = adminModel.getDomain()
+          val adminObj = AdminModel(admin.id).getDomain()
           val adm: AdminTestCRUDInterface = new AdminCRUD
-          val res = adm.create(admin)
-          val other = admin.copy(id = adms)
-          val results: Future[Admin] = Future{res}
-          results.map(result => Ok(Json.toJson(result)))
+          val res = adm.create(adminObj)
+          val other = admin.copy(id = admin.id)
+         val results: Future[Admin] = Future{res}
+         results.map(result => Ok(Json.toJson(result)))
     }
 
-  def update( adms: String) = Action.async(parse.json)
+  /**def update( adms: String) = Action.async(parse.json)
   {
     request =>
       val input = request.body
@@ -58,6 +62,6 @@ object AdminController extends Controller {
     val res = adm.read(id)
     val json = Json.toJson(res)
     Ok(json)
-  }
+  }**/
 
 }

@@ -7,7 +7,8 @@ package controllers
 import domain.people.Facilitator
 import domain.stuff.Ratings
 import models.{FacilitatorModel, RatingsModel}
-import services.crudservices.{RatingsCRUDInterface, RatingsCRUD}
+import services.crudservices.Impl.RatingsCRUD
+import services.crudservices.RatingsCRUDInterface
 
 import scala.concurrent.Future
 import play.api.libs.json.Json
@@ -18,23 +19,34 @@ object RatingsController extends Controller{
   implicit val adminWrites = Json.writes[Ratings]
   implicit val facsWrites = Json.writes[Facilitator]
 
-  def create( mem: String, fac: String ) = Action.async(parse.json)
+  def create( Ratings: String ) = Action.async(parse.json)
   {
     request =>
       val input = request.body
-      val chanModel = Json.fromJson[RatingsModel](input).get
-      val chanzoModel = Json.fromJson[FacilitatorModel](input).get
+
+      val income = (input \ "object").as[String]
+      val incomeF = (input \ "facobject").as[String]
+
+      val json = Json.parse(income)
+      val jsonF = Json.parse(incomeF)
+
+      val chanModel = Json.fromJson[RatingsModel](json).get
+      val chanzoModel = Json.fromJson[FacilitatorModel](jsonF).get
       val admin = chanModel.geDomain()
       val chanzo = chanzoModel.getDomain()
+
+      val ratObj = RatingsModel(admin.id,admin.rate,admin.comment,admin.facilitatorId).geDomain()
+      val facObj = FacilitatorModel(chanzo.id).getDomain()
+
       val obj: RatingsCRUDInterface = new RatingsCRUD
-      val res = obj.create(chanzo, admin)
-      val other = admin.copy(id = mem)
-      val otherz = chanzo.copy(id = fac)
+      val res = obj.create(facObj, ratObj)
+      val other = admin.copy(id = admin.id)
+      val otherz = chanzo.copy(id = chanzo.id)
       val results: Future[Ratings] = Future{res}
       results.map(resu => Ok(Json.toJson(resu)))
   }
 
-  def update( chan: String, id: String ) = Action.async(parse.json)
+  /**def update( chan: String, id: String ) = Action.async(parse.json)
   {
     request =>
       val input = request.body
@@ -62,6 +74,6 @@ object RatingsController extends Controller{
     val res = obj.read(otherid, id)
     val json = Json.toJson(res)
     Ok(json)
-  }
+  }**/
 
 }

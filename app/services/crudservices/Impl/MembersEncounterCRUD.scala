@@ -1,4 +1,4 @@
-package services.crudservices
+package services.crudservices.Impl
 
 import domain.stuff.MemberEncounter
 import repository.MemberEncountersRepository.MemberEncountersRepository

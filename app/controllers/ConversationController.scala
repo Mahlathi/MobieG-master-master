@@ -13,7 +13,8 @@ import play.api.libs.json.Json
 import play.api.mvc._
 import repository.ConversationMessageRepository.ConversationMessageRepository
 import services.ConversationService
-import services.crudservices.{ConversationCRUD, ConversationCRUDInterface}
+import services.crudservices.ConversationCRUDInterface
+import services.crudservices.Impl.ConversationCRUD
 import services.impl.ConversationServiceImpl
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -22,24 +23,30 @@ object ConversationController extends Controller{
   implicit val convoWrites = Json.writes[Conversation]
 
 
-  def create( convo: String, fac: String ) = Action.async(parse.json)
+  def create( Conversation: String ) = Action.async(parse.json)
   {
     request =>
       val input = request.body
-      val chanModel = Json.fromJson[ConversationModel](input).get
-      val chanzoModel = Json.fromJson[FacilitatorModel](input).get
+
+      val income = (input \ "object").as[String]
+      val incomeF = (input \ "facobject").as[String]
+      val json = Json.parse(income)
+      val jsonF = Json.parse(incomeF)
+      val chanModel = Json.fromJson[ConversationModel](json).get
+      val chanzoModel = Json.fromJson[FacilitatorModel](jsonF).get
       val admin = chanModel.getDomain()
       val chanzo = chanzoModel.getDomain()
+      val convObj = ConversationModel(admin.id,admin.message,admin.facilitatorId).getDomain()
+      val facObj = FacilitatorModel(chanzo.id).getDomain()
       val obj: ConversationCRUDInterface = new ConversationCRUD
-      val abj: Facilitator = new Facilitator("6661")
-      val res = obj.create(abj, admin)
-      val other = admin.copy(id = convo)
-      val otherz = chanzo.copy(id = fac)
+      val res = obj.create(chanzo, admin)
+      val other = admin.copy(id = admin.id)
+      val otherz = chanzo.copy(id = chanzo.id)
       val results: Future[Conversation] = Future{res}
       results.map(resu => Ok(Json.toJson(resu)))
   }
 
-  def update( chan: String, id: String  ) = Action.async(parse.json)
+  /**def update( chan: String, id: String  ) = Action.async(parse.json)
   {
     request =>
       val input = request.body
@@ -68,5 +75,5 @@ object ConversationController extends Controller{
     val res = obj.read(name, id)
     val json = Json.toJson(res)
     Ok(json)
-  }
+  }**/
 }

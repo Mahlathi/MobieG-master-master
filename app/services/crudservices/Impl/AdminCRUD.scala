@@ -1,10 +1,11 @@
-package services.crudservices
-
+package services.crudservices.Impl
 
 import people.Admin
 import repository.AdminRepository.AdminRepository
 import repository.ConversationMessageRepository.ConversationMessageRepository
 import repository.MemberEncountersRepository.MemberEncountersRepository
+import services.crudservices.AdminTestCRUDInterface
+
 import scala.slick.driver.MySQLDriver.simple._
 import scala.slick.lifted.TableQuery
 

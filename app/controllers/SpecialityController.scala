@@ -8,7 +8,8 @@ import domain.people.Facilitator
 import domain.stuff.Speciality
 import models.FacilitatorModel
 import models.crudmodels.SpecialityModel
-import services.crudservices.{SpecialityCRUD, SpecialityCRUDInterface}
+import services.crudservices.Impl.SpecialityCRUD
+import services.crudservices.SpecialityCRUDInterface
 
 import scala.concurrent.Future
 import play.api.libs.json.Json
@@ -19,22 +20,31 @@ object SpecialityController extends Controller{
   implicit val roleWrites = Json.writes[Speciality]
   implicit val adminWrites = Json.writes[Facilitator]
 
-  def create( mem: String, fac: String ) = Action.async(parse.json)
+  def create( Speciality: String ) = Action.async(parse.json)
   {
     request =>
       val input = request.body
-      val chanModel = Json.fromJson[SpecialityModel](input).get
+      val income = (input \ "object").as[String]
+      val incomeF = (input \ "facobject").as[String]
+      val json = Json.parse(income)
+      val jsonF = Json.parse(incomeF)
+
+      val chanModel = Json.fromJson[SpecialityModel](json).get
       val admin = chanModel.getDomain()
-      val chanzoModel = Json.fromJson[FacilitatorModel](input).get
+      val chanzoModel = Json.fromJson[FacilitatorModel](jsonF).get
       val chanzo = chanzoModel.getDomain()
+
+      val specsObj = SpecialityModel(admin.id,admin.specialityName,admin.specialityDescription,admin.facilitatorId).getDomain()
+      val facsObj = FacilitatorModel(chanzo.id).getDomain()
       val obj: SpecialityCRUDInterface = new SpecialityCRUD
-      val res = obj.create(chanzo, admin)
-      val other = admin.copy(id = mem)
+      val res = obj.create(facsObj, specsObj)
+      val other = admin.copy(id = admin.id)
+      val zoma = chanzo.copy(id = chanzo.id)
       val results: Future[Speciality] = Future{res}
       results.map(resu => Ok(Json.toJson(resu)))
   }
 
-  def update( chan: String, id: String ) = Action.async(parse.json)
+  /**def update( chan: String, id: String ) = Action.async(parse.json)
   {
     request =>
       val input = request.body
@@ -60,5 +70,5 @@ object SpecialityController extends Controller{
     val res = obj.read(otherid, id)
     val json = Json.toJson(res)
     Ok(json)
-  }
+  }**/
 }

@@ -1,63 +1,56 @@
-package services.crudservices
+package services.crudservices.Impl
 
 import domain.people.Facilitator
-import domain.stuff.Channel
-import repository.ChannelRepository.ChannelRepository
+import people.Members
 import repository.FacilitatorRepository.FacilitatorRepository
-import scala.slick.driver.MySQLDriver.simple._
+import repository.MembersRepository.MembersRepository
+import services.crudservices.MembersCRUDInterface
+
 import scala.slick.lifted.TableQuery
 
 /**
  * Created by akhona on 2014/10/02.
  */
-class ChannelCRUD extends ChannelCRUDInterface {
-  val channel = TableQuery[ChannelRepository]
+import scala.slick.driver.MySQLDriver.simple._
+
+class MembersCRUD extends MembersCRUDInterface{
+  val memrepo = TableQuery[MembersRepository]
   val facilitator = TableQuery[FacilitatorRepository]
 
-  override def create(chan: Channel, fac: Facilitator): Channel = {
+  override def create( mem: Members, fac: Facilitator ): Members= {
     Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
-
 
       val other = facilitator.insert(fac)
-
-      val valo = channel.insert(chan)
+      val valo = memrepo.insert(mem)
     }
-    chan
+    mem
   }
 
-
-  override def read(name: String, id: String): List[ChannelRepository#TableElementType] = {
+  override def read(others: String, id: String): List[MembersRepository#TableElementType] = {
     Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
-      val chan = channel.list
-      val one = chan.filter( p => p.id == id && p.name == name )
-
-      one
+      val repo = memrepo.list
+      val input = repo.filter( p=> p.id == id && p.facilitatorId == others)
+      input
     }
   }
-
 
   override def update( desc: String, id: String) =
   {
     Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
-      channel.filter(_.id === id).map(_.description).update(desc)
+      memrepo.filter(_.id === id).map(_.facilitator_id).update(desc)
 
     }
   }
-
 
   override def delete(id: String) =
   {
-
     Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
-      channel.filter(_.id === id).delete
+      memrepo.filter(_.id === id).delete
       facilitator.filter(_.id === id).delete
-      channel foreach { case (chann: Channel) =>
 
-      }
     }
   }
 }
-

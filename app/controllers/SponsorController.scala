@@ -8,7 +8,8 @@ import domain.people.Facilitator
 import domain.stuff.{Speciality, Channel, Sponsor}
 import models.{ChannelModel, FacilitatorModel}
 import models.crudmodels.{SpecialityModel, SponsorModel}
-import services.crudservices.{SponsorCRUD, SponsorCRUDInterface}
+import services.crudservices.Impl.SponsorCRUD
+import services.crudservices.SponsorCRUDInterface
 
 import scala.concurrent.Future
 import play.api.libs.json.Json
@@ -21,7 +22,7 @@ object SponsorController extends Controller{
   implicit val chanWrites = Json.writes[Channel]
   implicit val specialityWrites = Json.writes[Speciality]
 
-  def create( facs: String, chan: String, specs: String, spo: String ) = Action.async(parse.json)
+  def create( Sponsor: String ) = Action.async(parse.json)
   {
     request =>
       val input = request.body
@@ -35,12 +36,12 @@ object SponsorController extends Controller{
       val chanzos = chanzoModelb.getDomain()
       val obj: SponsorCRUDInterface = new SponsorCRUD
       val res = obj.create(chanzo,chanzos, admina, admin)
-      val other = admin.copy(id = spo)
+      //val other = admin.copy(id = spo)
       val results: Future[Sponsor] = Future{res}
       results.map(resu => Ok(Json.toJson(resu)))
   }
 
-  def update( chan: String, id: String ) = Action.async(parse.json)
+  /**def update( chan: String, id: String ) = Action.async(parse.json)
   {
     request =>
       val input = request.body
@@ -68,5 +69,5 @@ object SponsorController extends Controller{
     val obj: SponsorCRUDInterface = new SponsorCRUD
     val res = obj.delete(id)
     Ok("Deleted")
-  }
+  }**/
 }

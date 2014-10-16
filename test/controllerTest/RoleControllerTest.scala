@@ -7,7 +7,7 @@ import org.specs2.mutable.Specification
 
 import org.specs2.runner.JUnitRunner
 import play.api.Logger
-import play.api.libs.json.Json
+import play.api.libs.json.{JsString, JsObject, JsValue, Json}
 import play.api.mvc.Controller
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
@@ -17,20 +17,26 @@ import play.api.test.{FakeRequest, WithApplication}
  * Created by joseph on 2014/10/09.
  */
 @RunWith(classOf[JUnitRunner])
-class RoleControllerTest extends Specification//extends Controller
+class RoleControllerTest extends Specification
 {
     val gson = new Gson()
 
   "Controllers" should
     {
-      "Should create Admin Object" in new WithApplication()
+      "Should create role Object" in new WithApplication()
       {
         {
-          val role = RoleModel("3462605", "some role name", "this is description things")
+          val role = RoleModel("34014105", "some role name", "this is description things")
           val jsonstring = gson.toJson(role).stripMargin
-          val json = Json.parse(jsonstring)
+
+          val json: JsValue = JsObject(Seq
+            (
+                "object" -> JsString(jsonstring)
+            )
+          )
+
           val Some(result) = route(FakeRequest(
-            POST, "/roleCreate/:adms ").withJsonBody(json)
+            POST, "/createRole/:Role").withJsonBody(json)
           )
 
           status(result) must equalTo(OK)

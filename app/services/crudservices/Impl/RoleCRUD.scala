@@ -1,10 +1,11 @@
-package services.crudservices
+package services.crudservices.Impl
 
 import people.Role
 import repository.RoleRepository.RoleRepository
+import services.crudservices.RoleCRUDInterface
 
-import scala.slick.lifted.TableQuery
 import scala.slick.driver.MySQLDriver.simple._
+import scala.slick.lifted.TableQuery
 /**
  * Created by akhona on 2014/10/02.
  */

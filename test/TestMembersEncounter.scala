@@ -14,11 +14,11 @@ class TestMembersEncounter
       Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
         //Creating tables
-        memEncounterrepo.ddl.create
+        //memEncounterrepo.ddl.create
 
-        val insertMemEncounter = MemberEncounter("100","23 September 2014 12:00","23 September 2014 14:00","2","5")
+        //val insertMemEncounter = MemberEncounter("100","23 September 2014 12:00","23 September 2014 14:00","2","5")
 
-        val valo = memEncounterrepo.insert(insertMemEncounter)
+        //val valo = memEncounterrepo.insert(insertMemEncounter)
 
         /*Testing for extraction
         def Read(others: String, id: String) =

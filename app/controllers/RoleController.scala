@@ -6,7 +6,8 @@ package controllers
 
 import models.RoleModel
 import people.Role
-import services.crudservices.{RoleCRUDInterface, RoleCRUD}
+import services.crudservices.Impl.RoleCRUD
+import services.crudservices.RoleCRUDInterface
 
 import scala.concurrent.Future
 import play.api.libs.json.Json
@@ -16,20 +17,27 @@ import scala.concurrent.ExecutionContext.Implicits.global
 object RoleController extends Controller{
   implicit val roleWrites = Json.writes[Role]
 
-  def create( mem: String ) = Action.async(parse.json)
+  def create( Role: String ) = Action.async(parse.json)
   {
     request =>
       val input = request.body
-      val chanModel = Json.fromJson[RoleModel](input).get
+
+      val income = (input \ "object").as[String]
+      val json = Json.parse(income)
+
+      val chanModel = Json.fromJson[RoleModel](json).get
       val admin = chanModel.getDomain()
+
+      val rolObj = RoleModel(admin.roleId, admin.description, admin.roleName).getDomain()
+
       val obj: RoleCRUDInterface = new RoleCRUD
-      val res = obj.create(admin)
-      val other = admin.copy(roleId = mem)
+      val res = obj.create(rolObj)
+      val other = admin.copy(roleId = admin.roleId)
       val results: Future[Role] = Future{res}
       results.map(resu => Ok(Json.toJson(resu)))
   }
 
-  def update( chan: String, id: String ) = Action.async(parse.json)
+  /**def update( chan: String, id: String ) = Action.async(parse.json)
   {
     request =>
       val input = request.body
@@ -55,5 +63,5 @@ object RoleController extends Controller{
     val res = obj.read(otherid, id)
     val json = Json.toJson(res)
     Ok(json)
-  }
+  }**/
 }

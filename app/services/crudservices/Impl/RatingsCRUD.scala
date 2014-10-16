@@ -1,34 +1,38 @@
-package services.crudservices
+package services.crudservices.Impl
 
 import domain.people.Facilitator
-import domain.stuff.Conversation
-import repository.ConversationRepository.ConversationRepository
+import domain.stuff.Ratings
 import repository.FacilitatorRepository.FacilitatorRepository
+import repository.RatingRepository.RatingRepository
+import services.crudservices.RatingsCRUDInterface
 
-import scala.slick.lifted.TableQuery
 import scala.slick.driver.MySQLDriver.simple._
+import scala.slick.lifted.TableQuery
+
 /**
  * Created by akhona on 2014/10/02.
  */
-class ConversationCRUD extends ConversationCRUDInterface{
-  val convorepo = TableQuery[ConversationRepository]
+class RatingsCRUD extends RatingsCRUDInterface{
+  val ratrepo = TableQuery[RatingRepository]
   val facilitator = TableQuery[FacilitatorRepository]
 
-  override def create( fac: Facilitator, convo: Conversation ): Conversation= {
+  override def create( fac: Facilitator, rat: Ratings ): Ratings ={
     Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
       val other = facilitator.insert(fac)
-      val valo = convorepo.insert(convo)
+
+      val valo = ratrepo.insert(rat)
     }
-    convo
+    rat
   }
 
-  override def read(name: String, id: String) : List[ConversationRepository#TableElementType] ={
+  //Testing for extraction
+  override def read(name: String, id: String): List[RatingRepository#TableElementType] = {
     Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
-     val repo = convorepo.list
-     val input = repo.filter( p => p.message == name && p.id == id )
-     input
+     val repo = ratrepo.list
+     val input = repo.filter( p=> p.id == id && p.comment == name )
+      input
     }
   }
 
@@ -36,7 +40,8 @@ class ConversationCRUD extends ConversationCRUDInterface{
   {
     Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
-      convorepo.filter(_.id === id).map(_.message).update(desc)
+      ratrepo.filter(_.id === id).map(_.comment).update(desc)
+
     }
   }
 
@@ -44,10 +49,9 @@ class ConversationCRUD extends ConversationCRUDInterface{
   {
     Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
-      convorepo.filter(_.id === id).delete
+      ratrepo.filter(_.id === id).delete
       facilitator.filter(_.id === id).delete
+
     }
   }
 }
-
-

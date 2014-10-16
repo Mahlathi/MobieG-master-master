@@ -1,8 +1,11 @@
 package controllerTest
 
-
+/**
+ * Created by akhona on 2014/10/16.
+ */
 import com.google.gson.Gson
-import models.{UserHistoryModel, AdminModel}
+import models.FacilitatorModel
+import models.crudmodels.ConversationModel
 import org.junit.runner.RunWith
 import org.specs2.mutable.Specification
 import org.specs2.runner.JUnitRunner
@@ -11,41 +14,38 @@ import play.api.libs.json.{JsString, JsObject, JsValue, Json}
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
 
-
-
-/**
- * Created by akhona on 2014/10/07.
- */
-
 @RunWith(classOf[JUnitRunner])
-class AdminControllerTest extends Specification
+class ConversationControllerTest extends Specification
 {
   val gson = new Gson()
 
   "Controllers" should
     {
-      "Should create Admin Object" in new WithApplication()
+      "Should create Conversation Object" in new WithApplication()
       {
-        val role = AdminModel("101010106")
+
+        val facilitator = FacilitatorModel("33111338")
+        val jsonstringf = gson.toJson(facilitator).stripMargin
+
+
+        val role = ConversationModel("102574108","West side nigga","33111338")
         val jsonstring = gson.toJson(role).stripMargin
 
-        val json: JsValue = JsObject(Seq
+        val json : JsValue = JsObject(Seq
           (
-             "object" -> JsString(jsonstring)
+              "object" -> JsString(jsonstring),
+              "facobject" -> JsString(jsonstringf)
           )
         )
+
         //val json = Json.parse(jsonstring)
         val Some(result) = route(FakeRequest(
-          POST, "/createAdmin/:Admin").withJsonBody(json)
+          POST, "/createConversation/:Conversation").withJsonBody(json)
         )
         status(result) must equalTo(OK)
         Logger.debug(" The Result is " + result)
         contentType(result) must beSome("application/json")
 
       }
-      /**"Should Delete Admin Object" in new WithApplication {
-       val Some(home)= route(FakeRequest(DELETE, "/deleteAdmin/:id"))
-        status(home) must equalTo(OK)
-      }**/
     }
 }

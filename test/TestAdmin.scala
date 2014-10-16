@@ -61,7 +61,7 @@ class TestAdmin extends FeatureSpec with GivenWhenThen {
             info("Fail")
             if(count.id === id )
             {
-              assert(count.id.contentEquals(id))
+              assert(count.id == id)
               info("Success")
             }
 
@@ -72,7 +72,7 @@ class TestAdmin extends FeatureSpec with GivenWhenThen {
           adminrepo.filter(_.id === id).map(_.id).update(id)
           adminrepo foreach { case (chann: Admin) =>
            if (chann.id.contentEquals(id)) {
-              assert(chann.id.contentEquals(id))
+              assert(chann.id == id)
            }
           }
         }

@@ -1,4 +1,4 @@
-package services.crudservices
+package services.crudservices.Impl
 
 import domain.people.Facilitator
 import people.{Admin, Members, Person}
@@ -6,6 +6,8 @@ import repository.AdminRepository.AdminRepository
 import repository.FacilitatorRepository.FacilitatorRepository
 import repository.MembersRepository.MembersRepository
 import repository.PersonRepository.PersonRepository
+import services.crudservices.PersonCRUDInterface
+
 import scala.slick.driver.MySQLDriver.simple._
 import scala.slick.lifted.TableQuery
 

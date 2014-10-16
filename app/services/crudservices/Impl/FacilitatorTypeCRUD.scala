@@ -1,12 +1,13 @@
-package services.crudservices
+package services.crudservices.Impl
 
 import domain.people.Facilitator
 import people.FacilitatorType
 import repository.FacilitatorRepository.FacilitatorRepository
 import repository.FacilitatorTypeRepository.FacilitatorTypeRepository
+import services.crudservices.FacilitatorTypeCRUDInterface
 
-import scala.slick.lifted.TableQuery
 import scala.slick.driver.MySQLDriver.simple._
+import scala.slick.lifted.TableQuery
 /**
  * Created by akhona on 2014/10/02.
  */

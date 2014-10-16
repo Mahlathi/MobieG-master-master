@@ -3,13 +3,14 @@ package controllers
 import domain.people.Facilitator
 import domain.stuff.Channel
 import models.{FacilitatorModel, ChannelModel}
+import services.crudservices.Impl.ChannelCRUD
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import play.api.libs.json.Json
 import play.api.mvc._
 import repository.ChannelRepository.ChannelRepository
 import services.ChannelService
-import services.crudservices.{ChannelCRUD, ChannelCRUDInterface}
+import services.crudservices.ChannelCRUDInterface
 import services.impl.ChannelServiceImpl
 
 
@@ -22,23 +23,30 @@ object ChannelController extends Controller{
   implicit val facsWrites = Json.writes[Facilitator]
 
 
-     def create( chan: String, fac: String ) = Action.async(parse.json )
+     def create( Channel: String ) = Action.async(parse.json )
      {
         request =>
           val input = request.body
-          val chanModel = Json.fromJson[ChannelModel](input).get
-          val chanzoModel = Json.fromJson[FacilitatorModel](input).get
+
+          val income = (input \ "object").as[String]
+          val incomeF = (input \ "facobject").as[String]
+          val json = Json.parse(income)
+          val jsonF = Json.parse(incomeF)
+          val chanModel = Json.fromJson[ChannelModel](json).get
+          val chanzoModel = Json.fromJson[FacilitatorModel](jsonF).get
           val admin = chanModel.getDomain()
           val chanzo = chanzoModel.getDomain()
+          val chanObj = ChannelModel(admin.id,admin.name,admin.description,admin.facilitatorId).getDomain()
+          val facObj = FacilitatorModel(chanzo.id).getDomain()
           val obj: ChannelCRUDInterface = new ChannelCRUD
-          val res = obj.create(admin, chanzo)
-          val other = admin.copy(id = chan)
-          val otherz = admin.copy(id = fac)
+          val res = obj.create(chanObj, facObj)
+          val other = admin.copy(id = admin.id)
+          val otherz = admin.copy(id = chanzo.id)
           val results: Future[Channel] = Future{res}
           results.map(resu => Ok(Json.toJson(resu)))
      }
 
-     def update( chan: String, id: String ) = Action.async(parse.json)
+     /**def update( Channel: String ) = Action.async(parse.json)
      {
        request =>
          val input = request.body
@@ -47,9 +55,9 @@ object ChannelController extends Controller{
          val admin = chanModel.getDomain()
          //val chanzo = chanzoModel.getDomain()
          val obj: ChannelCRUDInterface = new ChannelCRUD
-         val res = obj.update(chan, id)
-         val results: Future[String] = Future{res.toString}
-         results.map(result => Ok(Json.toJson(result)))
+         //val res = obj.update(chan, id)
+         //val results: Future[String] = Future{res.toString}
+         //results.map(result => Ok(Json.toJson(result)))
      }
 
     def delete(id:String) = Action{
@@ -66,6 +74,6 @@ object ChannelController extends Controller{
       val res = obj.read(name, id)
       val json = Json.toJson(res)
       Ok(json)
-    }
+    }**/
 }
 

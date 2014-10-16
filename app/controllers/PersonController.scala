@@ -10,7 +10,8 @@ import models.crudmodels.{MembersModel, PersonModel}
 import people.{Admin, Members, Person}
 import play.api.libs.json.Json
 import play.api.mvc._
-import services.crudservices.{PersonCRUDInterface, PersonCRUD}
+import services.crudservices.Impl.PersonCRUD
+import services.crudservices.PersonCRUDInterface
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -20,29 +21,45 @@ object PersonController extends Controller{
   implicit val adminWrites = Json.writes[Admin]
   implicit val memberWrites = Json.writes[Members]
 
-  def create( mem: String, adm: String, fac: String, perc: String ) = Action.async(parse.json)
+  def create( Person: String ) = Action.async(parse.json)
   {
     request =>
       val input = request.body
-      val chanModel = Json.fromJson[PersonModel](input).get
-      val chanzoModel = Json.fromJson[FacilitatorModel](input).get
-      val othr = Json.fromJson[AdminModel](input).get
-      val thrz = Json.fromJson[MembersModel](input).get
+
+      val income = (input \ "object").as[String]
+      val incomeA = (input \ "admobject").as[String]
+      val incomeF = (input \ "facobject").as[String]
+      val incomeM = (input \ "memobject").as[String]
+
+      val json = Json.parse(income)
+      val jsonA = Json.parse(incomeA)
+      val jsonF = Json.parse(incomeF)
+      val jsonM = Json.parse(incomeM)
+
+      val chanModel = Json.fromJson[PersonModel](json).get
+      val chanzoModel = Json.fromJson[FacilitatorModel](jsonF).get
+      val othr = Json.fromJson[AdminModel](jsonA).get
+      val thrz = Json.fromJson[MembersModel](jsonM).get
       val admin = chanModel.getDomain
       val chanzo = chanzoModel.getDomain()
       val one = othr.getDomain()
       val two = thrz.getDomain
+
+      val persObj = PersonModel(admin.id,admin.title,admin.firstname,admin.surname,admin.othername,admin.username,admin.password,admin.email,admin.adminId,admin.facilitatorId,admin.membersId).getDomain()
+      val facObj = FacilitatorModel(chanzo.id).getDomain()
+      val admObj = AdminModel(one.id).getDomain()
+      val memObj = MembersModel(two.id,two.facilitatorId).getDomain
       val obj: PersonCRUDInterface = new PersonCRUD
       val res = obj.create(chanzo, two, one, admin)
-      val other = admin.copy(id = mem)
-      val othera = chanzo.copy(id = adm)
-      val otherb = one.copy(id = fac)
-      val otherc = two.copy(id = perc)
+      val other = admin.copy(id = admin.id)
+      val othera = chanzo.copy(id = chanzo.id)
+      val otherb = one.copy(id = one.id)
+      val otherc = two.copy(id = two.id)
       val results: Future[Person] = Future{res}
       results.map(resu => Ok(Json.toJson(resu)))
   }
 
-  def update( chan: String, id: String ) = Action.async(parse.json)
+  /**def update( chan: String, id: String ) = Action.async(parse.json)
   {
     request =>
       val input = request.body
@@ -70,5 +87,5 @@ object PersonController extends Controller{
     val res = obj.read(name, id)
     val json = Json.toJson(res)
     Ok(json)
-  }
+  }**/
 }

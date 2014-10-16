@@ -1,11 +1,13 @@
-package services.crudservices
+package services.crudservices.Impl
 
 import domain.people.Facilitator
-import domain.stuff.{Speciality, Channel, Sponsor}
+import domain.stuff.{Channel, Speciality, Sponsor}
 import repository.ChannelRepository.ChannelRepository
 import repository.FacilitatorRepository.FacilitatorRepository
 import repository.SpecialityRepository.SpecialityRepository
 import repository.SponsorRepository.SponsorRepository
+import services.crudservices.SponsorCRUDInterface
+
 import scala.slick.driver.MySQLDriver.simple._
 import scala.slick.lifted.TableQuery
 

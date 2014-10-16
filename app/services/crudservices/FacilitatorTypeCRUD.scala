@@ -23,11 +23,12 @@ class FacilitatorTypeCRUD extends FacilitatorTypeCRUDInterface {
     typ
   }
 
-  override def read(descri: String, id: String) = {
+  override def read(descri: String, id: String): List[FacilitatorTypeRepository#TableElementType] = {
     Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
-      facirepo foreach { case (count: FacilitatorType) =>
-      }
+     val repo = facirepo.list
+     val input = repo.filter(p => p.description == descri && p.id == id)
+     input
     }
   }
 
@@ -35,9 +36,7 @@ class FacilitatorTypeCRUD extends FacilitatorTypeCRUDInterface {
     Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
       facirepo.filter(_.id === id).map(_.description).update(desc)
-      facirepo foreach { case (chann: FacilitatorType) =>
 
-      }
     }
   }
 
@@ -46,45 +45,7 @@ class FacilitatorTypeCRUD extends FacilitatorTypeCRUDInterface {
 
       facirepo.filter(_.id === id).delete
       facilitator.filter(_.id === id).delete
-      facirepo foreach { case (chann: FacilitatorType) =>
 
-      }
-    }
-  }
-
-
-
-  Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
-
-    //Creating tables
-    //facirepo.ddl.create
-
-
-     def create( fac: Facilitator, typ: FacilitatorType ) = {
-        val other = facilitator.insert(fac)
-       val valo = facirepo.insert(typ)
-    }
-
-    //Testing for extraction
-    def Read(descri: String, id: String) =
-      facirepo foreach { case (count: FacilitatorType) =>
-    }
-
-
-
-    def Update(desc: String, id: String) = {
-      facirepo.filter(_.id === id).map(_.description).update(desc)
-      facirepo foreach { case (chann: FacilitatorType) =>
-
-      }
-    }
-
-     def Delete(id: String) = {
-      facirepo.filter(_.id === id).delete
-      facilitator.filter(_.id === id).delete
-      facirepo foreach { case (chann: FacilitatorType) =>
-
-      }
     }
   }
 }

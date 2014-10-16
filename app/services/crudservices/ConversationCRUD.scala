@@ -23,12 +23,12 @@ class ConversationCRUD extends ConversationCRUDInterface{
     convo
   }
 
-  override def read(name: String, id: String) = {
+  override def read(name: String, id: String) : List[ConversationRepository#TableElementType] ={
     Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
-      convorepo foreach { case (count: Conversation) =>
-
-      }
+     val repo = convorepo.list
+     val input = repo.filter( p => p.message == name && p.id == id )
+     input
     }
   }
 
@@ -37,9 +37,6 @@ class ConversationCRUD extends ConversationCRUDInterface{
     Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
       convorepo.filter(_.id === id).map(_.message).update(desc)
-      convorepo foreach { case (chann: Conversation) =>
-
-      }
     }
   }
 
@@ -49,46 +46,8 @@ class ConversationCRUD extends ConversationCRUDInterface{
 
       convorepo.filter(_.id === id).delete
       facilitator.filter(_.id === id).delete
-      convorepo foreach { case (chann: Conversation) =>
-
-      }
     }
   }
-
-  /*Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
-
-    //Creating tables
-    // convorepo.ddl.create
-
-
-    def create( fac: Facilitator, convo: Conversation ) = {
-      val other = facilitator.insert(fac)
-      val valo = convorepo.insert(convo)
-    }
-
-    //Testing for extraction
-    def Read(name: String, id: String) =
-      convorepo foreach { case (count: Conversation) =>
-
-      }
-
-    def Update( desc: String, id: String) =
-    {
-      convorepo.filter(_.id === id).map(_.message).update(desc)
-      convorepo foreach { case ( chann: Conversation ) =>
-
-      }
-    }
-
-    def Delete(id: String) =
-    {
-      convorepo.filter(_.id === id).delete
-      facilitator.filter(_.id === id).delete
-      convorepo foreach { case (chann: Conversation) =>
-
-      }
-    }
-  }*/
 }
 
 

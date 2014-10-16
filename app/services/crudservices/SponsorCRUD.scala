@@ -36,12 +36,12 @@ import scala.slick.lifted.TableQuery
   }
 
   //Testing for extraction
-  override def read(name: String, id: String) = {
+  override def read(name: String, id: String): List[SponsorRepository#TableElementType] = {
     Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
-      spons foreach { case (count: Sponsor) =>
-
-      }
+      val repo = spons.list
+      val input = repo.filter( p => p.name == name && p.id == id)
+      input
     }
   }
 
@@ -51,9 +51,7 @@ import scala.slick.lifted.TableQuery
     Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
       spons.filter(_.id === id).map(_.message).update(desc)
-      spons foreach { case (chann: Sponsor) =>
 
-      }
     }
   }
 
@@ -65,53 +63,7 @@ import scala.slick.lifted.TableQuery
       channel.filter(_.id === id).delete
       fac.filter(_.id === id).delete
       specs.filter(_.id === id).delete
-      spons foreach { case (chann: Sponsor) =>
 
-      }
-    }
-  }
-
-  Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
-
-    //Creating tables
-    //spons.ddl.create
-
-    def create( facs: Facilitator, chan: Channel, spec: Speciality, spo: Sponsor ) =
-    {
-
-       val other = fac.insert(facs)
-
-       val valo = channel.insert(chan)
-
-       val vho = specs.insert(spec)
-
-       val nser = spons.insert(spo)
-    }
-
-    //Testing for extraction
-    def Read(name: String, id: String) =
-      spons foreach { case (count: Sponsor) =>
-
-      }
-
-
-    def Update( desc: String, id: String) =
-    {
-      spons.filter(_.id === id).map(_.message).update(desc)
-      spons foreach { case ( chann: Sponsor ) =>
-
-      }
-    }
-
-    def Delete(id: String) =
-    {
-      spons.filter(_.id === id).delete
-      channel.filter(_.id === id).delete
-      fac.filter(_.id === id).delete
-      specs.filter(_.id === id).delete
-      spons foreach { case (chann: Sponsor) =>
-
-      }
     }
   }
 }

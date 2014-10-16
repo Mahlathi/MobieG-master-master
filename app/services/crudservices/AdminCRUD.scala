@@ -52,42 +52,4 @@ class AdminCRUD extends AdminTestCRUDInterface {
     }
     id
   }
-
-
-  /*Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
-
-    //Creating tables
-    //admin.ddl.create
-
-    //Inserting
-
-
-
-    //Testing for extraction
-    def Read(id: String) =
-      adminrepo foreach { case (count: Admin) =>
-        if(count.id == id )
-        {
-
-
-        }
-      }
-
-    def Update(id: String) = {
-
-      adminrepo.filter(_.id === id).map(_.id).update(id)
-      adminrepo foreach { case (chann: Admin) =>
-
-      }
-    }
-
-
-    def Delete(id: String) = {
-      adminrepo.filter(_.id === id).delete
-      adminrepo foreach { case (chann: Admin) =>
-
-
-      }
-    }
-  }*/
 }

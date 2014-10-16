@@ -20,12 +20,12 @@ class RoleCRUD extends RoleCRUDInterface{
   }
 
   //Testing for extraction
-  override def read(name: String, id: String) = {
+  override def read(name: String, id: String): List[RoleRepository#TableElementType] = {
     Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
-      role foreach { case (count: Role) =>
-
-      }
+     val repo = role.list
+     val input = repo.filter(p => p.description == name && p.roleId == id)
+     input
     }
   }
 
@@ -34,9 +34,7 @@ class RoleCRUD extends RoleCRUDInterface{
     Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
       role.filter(_.id === id).map(_.description).update(desc)
-      role foreach { case (chann: Role) =>
 
-      }
     }
   }
 
@@ -45,43 +43,7 @@ class RoleCRUD extends RoleCRUDInterface{
     Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
       role.filter(_.id === id).delete
-      role foreach { case (chann: Role) =>
 
-      }
-    }
-  }
-
-
-  Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
-
-    //Creating tables
-    // role.ddl.create
-
-    def create( rol: Role ) =
-    {
-       val valo = role.insert(rol)
-    }
-
-    //Testing for extraction
-    def Read(name: String, id: String) =
-      role foreach { case (count: Role) =>
-
-      }
-
-    def Update( desc: String, id: String) =
-    {
-      role.filter(_.id === id).map(_.description).update(desc)
-      role foreach { case ( chann: Role ) =>
-
-      }
-    }
-
-    def Delete(id: String) =
-    {
-      role.filter(_.id === id).delete
-      role foreach { case (chann: Role) =>
-
-      }
     }
   }
 }

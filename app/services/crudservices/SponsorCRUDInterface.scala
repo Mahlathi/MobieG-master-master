@@ -2,6 +2,7 @@ package services.crudservices
 
 import domain.people.Facilitator
 import domain.stuff.{Sponsor, Speciality, Channel}
+import repository.SponsorRepository.SponsorRepository
 
 /**
  * Created by alex on 2014/10/09.
@@ -9,7 +10,7 @@ import domain.stuff.{Sponsor, Speciality, Channel}
 trait SponsorCRUDInterface {
 
   def create( facs: Facilitator, chan: Channel, spec: Speciality, spo: Sponsor ): Sponsor
-  def read(name: String, id: String)
+  def read(name: String, id: String): List[SponsorRepository#TableElementType]
   def update( desc: String, id: String)
   def delete(id: String)
 }

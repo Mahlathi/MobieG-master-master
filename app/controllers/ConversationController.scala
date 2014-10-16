@@ -20,7 +20,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 object ConversationController extends Controller{
   implicit val convoWrites = Json.writes[Conversation]
-  implicit val facsReads = Json.writes[Facilitator]
+
 
   def create( convo: String, fac: String ) = Action.async(parse.json)
   {
@@ -31,7 +31,8 @@ object ConversationController extends Controller{
       val admin = chanModel.getDomain()
       val chanzo = chanzoModel.getDomain()
       val obj: ConversationCRUDInterface = new ConversationCRUD
-      val res = obj.create(chanzo, admin)
+      val abj: Facilitator = new Facilitator("6661")
+      val res = obj.create(abj, admin)
       val other = admin.copy(id = convo)
       val otherz = chanzo.copy(id = fac)
       val results: Future[Conversation] = Future{res}
@@ -45,15 +46,16 @@ object ConversationController extends Controller{
       val chanModel = Json.fromJson[ConversationModel](input).get
       val chanzoModel = Json.fromJson[FacilitatorModel](input).get
       val admin = chanModel.getDomain()
-      //val chanzo = chanzoModel.getDomain()
+      val chanzo = chanzoModel.getDomain()
       val obj: ConversationCRUDInterface = new ConversationCRUD
       val res = obj.update(chan, id)
+
       val results: Future[String] = Future{res.toString}
       results.map(result => Ok(Json.toJson(result)))
   }
 
-  def delete(id:String) = Action{
-
+  def delete(id:String) = Action
+  {
     val obj: ConversationCRUDInterface = new ConversationCRUD
     val res = obj.delete(id)
     Ok("Deleted")

@@ -24,11 +24,11 @@ class AdminControllerTest extends Specification {
   "Controllers" should {
     "Should create Admin Object" in new WithApplication() {
       {
-        val role = AdminModel("1008006")
+        val role = AdminModel("106")
         val jsonstring = gson.toJson(role).stripMargin
         val json = Json.parse(jsonstring)
         val Some(result) = route(FakeRequest(
-          POST, "/adminCreate/:adms").withJsonBody(json)
+          POST, "/createAdmin/:adms").withJsonBody(json)
         )
 
         status(result) must equalTo(OK)

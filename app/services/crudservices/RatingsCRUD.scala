@@ -25,12 +25,12 @@ class RatingsCRUD extends RatingsCRUDInterface{
   }
 
   //Testing for extraction
-  override def read(name: String, id: String) = {
+  override def read(name: String, id: String): List[RatingRepository#TableElementType] = {
     Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
-      ratrepo foreach { case (count: Ratings) =>
-
-      }
+     val repo = ratrepo.list
+     val input = repo.filter( p=> p.id == id && p.comment == name )
+      input
     }
   }
 
@@ -39,9 +39,7 @@ class RatingsCRUD extends RatingsCRUDInterface{
     Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
 
       ratrepo.filter(_.id === id).map(_.comment).update(desc)
-      ratrepo foreach { case (chann: Ratings) =>
 
-      }
     }
   }
 
@@ -51,46 +49,7 @@ class RatingsCRUD extends RatingsCRUDInterface{
 
       ratrepo.filter(_.id === id).delete
       facilitator.filter(_.id === id).delete
-      ratrepo foreach { case (chann: Ratings) =>
 
-      }
-    }
-  }
-
-
-  Database.forURL("jdbc:mysql://localhost:3306/mysql", driver = "com.mysql.jdbc.Driver", user = "root", password = "admin").withSession { implicit session =>
-
-    //Creating tables
-    //ratrepo.ddl.create
-
-    def create( fac: Facilitator, rat: Ratings ) =
-    {
-      val other = facilitator.insert(fac)
-
-      val valo = ratrepo.insert(rat)
-    }
-
-    //Testing for extraction
-    def Read(name: String, id: String) =
-      ratrepo foreach { case (count: Ratings) =>
-
-      }
-
-    def Update( desc: String, id: String) =
-    {
-      ratrepo.filter(_.id === id).map(_.comment).update(desc)
-      ratrepo foreach { case ( chann: Ratings ) =>
-
-      }
-    }
-
-    def Delete(id: String) =
-    {
-      ratrepo.filter(_.id === id).delete
-      facilitator.filter(_.id === id).delete
-      ratrepo foreach { case (chann: Ratings) =>
-
-      }
     }
   }
 }

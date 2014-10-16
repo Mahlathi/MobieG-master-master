@@ -8,4 +8,6 @@ import repository.SpecialityRepository.SpecialityRepository
  */
 trait getFacilitatorSpecialityInt {
   def getSpeciality( speciality : String ) : List[PersonRepository#TableElementType]
+
+  def getAll() : List[PersonRepository#TableElementType]
 }
